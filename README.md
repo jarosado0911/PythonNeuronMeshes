@@ -5,6 +5,7 @@ Contents
 
  * [What?](#what)
  * [Installation](#installation)
+ * [Project Contents](#projectcontents)
  * [Usage](#usage)
  
 ### What?
@@ -49,6 +50,18 @@ Boot Device:               \Device\HarddiskVolume1
 System Locale:             en-us;English (United States)
 Input Locale:              en-us;English (United States)
 ```
+Here is WSL information
+```
+ NAME      STATE           VERSION
+* Ubuntu    Running         2
+```
+### Project Contents
+When you git clone or download this project you should have the following items:
++ Folder `cells` contains some [`NeuroMorpho.org`](https://neuromorpho.org/) cells in `.swc` format
++ Folder `papers` contains some papers in `.pdf` format that are good references for proceeding in the project
++ Folder `src` is the course code, it only contains two `.py` files which are the main codes for the mesh and geometry generation
++ File `generate_meshes.py` is the main driver code which is described in the Usage section.
+
 ### Usage
 There is a file called `generate_meshes.py` if you execute in the commandline `python3 generate_mesh.py` you will receive the following output
 ```
