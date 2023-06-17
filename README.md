@@ -8,11 +8,12 @@ Contents
  * [Usage](#usage)
  
 ### What?
-This project takes a .swc file downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/) and generates:
+This project takes a [`.swc`] file downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/) and generates:
 
 + 1D geometry refinements in .swc format
 + 3D surface mesh geometries in .ugx format
 
+The code will either use a spline interpolation for regularizing the geometry and producing refinements or only does pure refinements of the original [`.swc`] file
 
 ### Installation
 The project uses Python in particular I provide some version information that is currently used.
