@@ -12,7 +12,7 @@ Contents
 ### Tasks!
 Here is a lists of tasks that need to be completed and questions that need to be answered
 
-+ $${\color{green}Done!}$$ Generate surface triangulations that are saveed to `.ugx` format.
++ <span style="color:green">Generate surface triangulations that are saveed to `.ugx` format.</span> 
 
  
 ### What?
