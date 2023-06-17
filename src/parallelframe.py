@@ -1,8 +1,12 @@
 import numpy as np
+import matplotlib
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d.art3d import Poly3DCollection, Line3DCollection
 import math
 import renderneuron as rn
+
+print("numpy:     ",np.__version__)
+print("maplotlib: ", matplotlib.__version__)
 
 def rotationMatrix(axis, theta):
     axis = np.asarray(axis)

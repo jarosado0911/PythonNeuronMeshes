@@ -2,6 +2,7 @@ import os
 import numpy as np
 import networkx as nx
 import copy
+import scipy
 from scipy.sparse import csr_matrix
 from scipy import interpolate
 import math
@@ -9,6 +10,9 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.cm as cm
 import matplotlib
+
+print('networkx:  ', nx.__version__)
+print('scipy:     ', scipy.__version__)
 
 
 def spline_neuron(Gin,delta_x):

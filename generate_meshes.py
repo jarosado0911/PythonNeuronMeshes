@@ -1,9 +1,18 @@
-import renderneuron as rn
-import parallelframe as pf
 import argparse
 import os
+import sys
+print("Python version: ",sys.version)
+print("Version info:   ",sys.version_info)
+print('Argparse:       ',argparse.__version__,'\n')
 
-parser = argparse.ArgumentParser(description='This program will generate .swc refinements')
+sys.path.insert(0, os.getcwd()+'/src/')
+
+import renderneuron as rn
+import parallelframe as pf
+print('\n')
+
+parser = argparse.ArgumentParser(description='''This program will generate .swc refinements,
+                                             usage: python3 generate_mesh.py -n 4 -c 6 -i cells/<cellname> -o <outfoldername> --spline''')
 parser.add_argument('-n', '--numrefine',help="Number of Refinements", required=True)
 parser.add_argument('-c', '--numcontpts',help="Number of Contour points",required=True)
 parser.add_argument('-i', '--input',help="The input .swc file", required=True)
@@ -12,7 +21,7 @@ parser.add_argument('--spline', action='store_true',help="Use splines")
 args = parser.parse_args()
 
 print('Number of refinements:    ',args.numrefine)
-print('Number of contour points: ', args.numcontpts)
+print('Number of contour points: ',args.numcontpts)
 print('Input file:               ',args.input)
 print('Output file:              ',args.output)
 
