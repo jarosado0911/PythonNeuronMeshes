@@ -75,3 +75,20 @@ optional arguments:
   --spline              Use splines
 ```
 The folder `cells` contains cells which were downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/)
+Example usage using splines is shown below
+```
+python3 generate_meshes.py -n 12 -c 18 -i cells/272-1-6-CD.CNG.swc -o output_mesh --spline
+```
+This will produce an output folder called `output_mesh` and it will contain `.swc` files and `.ugx` files which are numbered accordingly. The output below will be printed below:
+```
+Number of refinements:     12
+Number of contour points:  18
+Input file:                cells/272-1-6-CD.CNG.swc
+Output file:               output_mesh
+DX =  [128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25, 0.125, 0.0625]
+refining round... 128  64  32  16  8  4  2  1  0.5  0.25  0.125  0.0625   Done!
+```
+If you leave off `--spline` then splines will not be used:
+```
+python3 generate_meshes.py -n 12 -c 18 -i cells/272-1-6-CD.CNG.swc -o output_mesh_nospline
+```
