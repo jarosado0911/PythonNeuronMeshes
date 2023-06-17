@@ -14,7 +14,7 @@ This project takes a `.swc` file downloaded from [`NeuroMorpho.org`](https://neu
 + 1D geometry refinements in .swc format
 + 3D surface mesh geometries in .ugx format
 
-The code will either use a spline interpolation for regularizing the geometry and producing refinements or only does pure refinements of the original `.swc` file
+The code allows the user to use spline interpolation for regularizing/refining the geometry or the user can produce refinements on the original `.swc` file. Below is a figure showing refinments generated using spline interpolation from Python's module `scipy`, details on the specific function are found here: [`scipy.interpolate`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.splprep.html).
 
 ### Installation
 The project uses Python in particular I provide some version information that is currently used.
