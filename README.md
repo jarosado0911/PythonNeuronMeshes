@@ -12,7 +12,12 @@ Contents
 ### Tasks!
 Here is a lists of tasks that need to be completed and questions that need to be answered
 
-+ <span style="color:green">Generate surface triangulations that are saveed to `.ugx` format.</span> 
++ Generate surface triangulations that are saveed to `.ugx` format. DONE!
++ Check orientation of surface triangulations i.e. check normals. TODO!
++ IMPORTANT: RESOLVE SOMA!! --> use a ball?? see [`paper`](/papers/1-s2.0-S0010482513000930-main (2).pdf) 
++ IMPORTANT: RESOLVE BRANCH POINTS!!
++ CLOSE THE END OF THE DENDRITES!!
++ Fix subset assignment in `.ugx` right now when you open the `.ugx` nothing appears because you have to manually select all and assign the subset
 
  
 ### What?
