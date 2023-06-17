@@ -12,9 +12,8 @@ Contents
 ### Tasks!
 Here is a lists of tasks that need to be completed and questions that need to be answered
 
-```diff
-+ Generate surface triangulations that are saveed to `.ugx` format. DONE!
- ```
++ $${\color{green}Done!}$$ Generate surface triangulations that are saveed to `.ugx` format.
+
  
 ### What?
 This project takes a `.swc` file downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/) and generates:
