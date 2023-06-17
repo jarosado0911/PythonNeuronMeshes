@@ -15,6 +15,9 @@ This project takes a `.swc` file downloaded from [`NeuroMorpho.org`](https://neu
 + 3D surface mesh geometries in .ugx format, I used the strategy described here: [`Framing Parametric Curves`](https://janakiev.com/blog/framing-parametric-curves/)
 
 The code allows the user to use spline interpolation for regularizing/refining the geometry or the user can produce refinements on the original `.swc` file. Below is a figure showing refinments generated using spline interpolation from Python's module `scipy`, details on the specific function are found here: [`scipy.interpolate`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.splprep.html).
+<p align="center">
+  <img src="/img/refinments1d.png" alt="Size Limit CLI" width="738">
+</p>
 
 ### Installation
 The project uses Python in particular I provide some version information that is currently used.
