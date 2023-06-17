@@ -16,7 +16,7 @@ This project takes a `.swc` file downloaded from [`NeuroMorpho.org`](https://neu
 
 The code allows the user to use spline interpolation for regularizing/refining the geometry or the user can produce refinements on the original `.swc` file. Below is a figure showing refinments generated using spline interpolation from Python's module `scipy`, details on the specific function are found here: [`scipy.interpolate`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.splprep.html).
 <p align="center">
-  <img src="./img/refinments1d.png" alt="Size Limit CLI" width="738">
+  <img src="./img/refinements1d.png" alt="Size Limit CLI" width="738">
 </p>
 
 ### Installation
