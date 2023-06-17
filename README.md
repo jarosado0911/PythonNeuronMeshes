@@ -8,7 +8,7 @@ Contents
  * [Usage](#usage)
  
 ### What?
-This project takes a .swc file downloaded from NeuroMorpho.org and generates:
+This project takes a .swc file downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/) and generates:
 
 + 1D geometry refinements in .swc format
 + 3D surface mesh geometries in .ugx format
@@ -16,7 +16,7 @@ This project takes a .swc file downloaded from NeuroMorpho.org and generates:
 
 ### Installation
 The project uses Python in particular I provide some version information that is currently used.
-I recommend using Jupyter-Notebooks and downloading Promesh4 for view the geometries.
+I recommend using Jupyter-Notebooks and downloading [`Promesh4`](https://promesh3d.com/) for view the geometries.
 Other than that there is nothing else to install.
 ```
 Python version:  3.8.10 (default, Mar 13 2023, 10:26:41)
