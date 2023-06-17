@@ -19,7 +19,7 @@ The code allows the user to use spline interpolation for regularizing/refining t
   <img src="./img/refinements1d.png" alt="Size Limit CLI" width="738">
 </p>
 
-The project uses [`Parallel Transport Frames`](chrome-extension://efaidnbmnnnibpcajpcglclefindmkaj/https://legacy.cs.indiana.edu/ftp/techreports/TR425.pdf) to generate the contours used in the mesh generation. Below is a figure showing some meshes. Wikipedia on [`parallel tranpsport`](https://en.wikipedia.org/wiki/Parallel_transport).
+The project uses [`Parallel Transport Frames`](https://legacy.cs.indiana.edu/ftp/techreports/TR425.pdf) to generate the contours used in the mesh generation. Below is a figure showing some meshes. Wikipedia on [`parallel tranpsport`](https://en.wikipedia.org/wiki/Parallel_transport).
 
 ### Installation
 The project uses Python in particular I provide some version information that is currently used.
