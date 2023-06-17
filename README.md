@@ -16,10 +16,17 @@ This project takes a `.swc` file downloaded from [`NeuroMorpho.org`](https://neu
 
 The code allows the user to use spline interpolation for regularizing/refining the geometry or the user can produce refinements on the original `.swc` file. Below is a figure showing refinments generated using spline interpolation from Python's module `scipy`, details on the specific function are found here: [`scipy.interpolate`](https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.splprep.html).
 <p align="center">
-  <img src="./img/refinements1d.png" alt="Size Limit CLI" width="738">
+  <img src="./img/refinements1d.png" alt="Size Limit CLI" width="500">
 </p>
 
-The project uses [`Parallel Transport Frames`](https://legacy.cs.indiana.edu/ftp/techreports/TR425.pdf) to generate the contours used in the mesh generation. Below is a figure showing some meshes. Wikipedia on [`parallel tranpsport`](https://en.wikipedia.org/wiki/Parallel_transport).
+The project uses [`Parallel Transport Frames`](https://legacy.cs.indiana.edu/ftp/techreports/TR425.pdf) to generate the contours used in the mesh generation. Below is a figure showing some meshes with increasing refinements. Wikipedia on [`parallel tranpsport`](https://en.wikipedia.org/wiki/Parallel_transport). 
+<p align="center">
+  <img src="./img/image.png" alt="Size Limit CLI" width="500">
+</p>
+Below is a figure showing the 1d geometry centered within the 3d surface mesh geometry (triangular faces hidden).
+<p align="center">
+  <img src="./img/1d3d.png" alt="Size Limit CLI" width="500">
+</p>
 
 ### Installation
 The project uses Python in particular I provide some version information that is currently used.
