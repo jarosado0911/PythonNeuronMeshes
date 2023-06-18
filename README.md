@@ -142,7 +142,7 @@ If you leave off `--spline` then splines will not be used:
 ```
 python3 generate_meshes.py -n 12 -c 18 -i cells/272-1-6-CD.CNG.swc -o output_mesh_nospline
 ```
-The difference between generating meshes using splines and without splines is shown in the figure below
+The difference between generating meshes using splines and without splines is shown in the figure below. The yellow mesh is pure refinement of the original `.swc` by repeated splitting of the edges of the original geometry. The red mesh uses a spline with equally spaced sampled points. The spline is an interpolation of the original points along the trunk (a trunk is a piece of neuron between two adjacent branch points).
 <p align="center">
   <img src="./img/meshcomparison.png" alt="Size Limit CLI" width="500">
 </p>
