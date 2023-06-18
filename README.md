@@ -83,6 +83,8 @@ Here is WSL information
 ```
  NAME      STATE           VERSION
 * Ubuntu    Running         2
+
+Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.72-microsoft-standard-WSL2 x86_64)
 ```
 ### Project Contents
 When you git clone or download this project you should have the following items:
