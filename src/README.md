@@ -44,3 +44,8 @@ The `parallelframe.py` file contains the codes for generating the coutours of th
 <p align="center">
   <img src="./../img/twisting_effect.png" alt="Size Limit CLI" width="600">
 </p>
+
+With the PFT code I implemented, the orientations of the orthogonal vectors are preserved along each trunk:
+<p align="center">
+  <img src="./../img/pft1.png" alt="Size Limit CLI" width="600">
+</p>
