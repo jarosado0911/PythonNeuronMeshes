@@ -142,5 +142,10 @@ If you leave off `--spline` then splines will not be used:
 ```
 python3 generate_meshes.py -n 12 -c 18 -i cells/272-1-6-CD.CNG.swc -o output_mesh_nospline
 ```
+The difference between generating meshes using splines and without splines is shown in the figure below
+<p align="center">
+  <img src="./img/meshcomparison.png" alt="Size Limit CLI" width="500">
+</p>
+
 ### Other
 Here is a link to using parallel frame transport with Unity: [`PFT`](https://giordi91.github.io/post/2018-31-07-parallel-transport/)
