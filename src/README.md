@@ -39,3 +39,8 @@ The `renderneuron.py` file contains the following functions:
 
 
 ### Parallel Frame Transport
+
+The `parallelframe.py` file contains the codes for generating the coutours of the parallel frames and then writing the `.ugx` files. Using parallel frame transport (PFT) made the indexing easier since the contour points were in 'alignment' and this prevented the twisting artifact. An example of the twisting affect is below (borrowed from [here](https://www.semanticscholar.org/paper/Mesh-quality-oriented-3D-geometric-vascular-based-Guo-Li/5ee9724f1460c6a6fd11f4cea30d65ae038caea1) this article is in the `papers` folder):
+<p align="center">
+  <img src="./../img/twisting_effect.png" alt="Size Limit CLI" width="200">
+</p>
