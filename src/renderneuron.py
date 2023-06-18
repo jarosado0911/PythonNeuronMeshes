@@ -14,7 +14,6 @@ import matplotlib
 print('networkx:  ', nx.__version__)
 print('scipy:     ', scipy.__version__)
 
-
 def spline_neuron(Gin,delta_x):
     G=copy.deepcopy(Gin)
     trunks,T=get_trunks(G)
@@ -83,7 +82,6 @@ def spline_neuron(Gin,delta_x):
     return G2
     
     
-
 def get_trunks(G):
     T=copy.deepcopy(G)
     # nodes which are branch points
@@ -154,21 +152,30 @@ def print_id_pid(G):
         print('(Id,Pid): (',i,', ',pid,')')
 
 def get_graph(lines):
+    """
+    This function turns the lines that were read in, into a graph object
+    """
     G=nx.DiGraph()
     for item in lines:
         G.add_node(item[0],t=item[1],pos=(item[2],item[3],item[4]),r=item[5])
 
     # Now let us add the edges
     for item in lines:
-        if item[6] != -1: # add edges
+        if item[6] != -1: # add edges, but don't try to add edge that has pid = -1
             G.add_edge(item[6],item[0])
     return G
 
 def refine_once(G):
+    """
+    This function takes in a graph object (G) and refines the geometry once.
+    The refine geometry is return as a new graph object (H)
+    """
     g_size=len(G.nodes)
-    G2=nx.DiGraph()
+    G2=nx.DiGraph()          # initialize empty digraph
 
+    # new indices don't start at index = 0
     new_ind=g_size+1
+    # iterate through the edges
     for e in G.edges:
         # get average of two nodes
         pos0 = np.array(G.nodes[e[0]]['pos']); pos1 = np.array(G.nodes[e[1]]['pos']);
@@ -176,15 +183,18 @@ def refine_once(G):
         t0   = np.array(G.nodes[e[0]]['t']);   t1 = np.array(G.nodes[e[1]]['t']);
         pos_ave = (pos0+pos1)/2.0; r_ave = (r0+r1)/2.0;
         t_ave=t1;
-
+        
+        # start building the new graph by adding the nodes
         G2.add_node(e[0],t=t0,pos=pos0,r=r0)
         G2.add_node(new_ind,t=t_ave,pos=tuple(pos_ave),r=r_ave)
         G2.add_node(e[1],t=t1, pos=pos1,r=r1)
+        
+        # then add the edges
         G2.add_edge(e[0],new_ind)
         G2.add_edge(new_ind,e[1])
         new_ind+=1
 
-    # this is the topological sort call --> put into separate function
+    # this is the topological sort call --> put into separate function?
     H = nx.DiGraph()
     H.add_nodes_from(sorted(G2.nodes(data=True)))
     H.add_edges_from(G2.edges(data=True))
@@ -194,11 +204,17 @@ def refine_once(G):
     return H
 
 def read_swc(filename):
+    """
+    This function takes in a filename (.swc file) and reads the lines of the file
+    into a variable called lines. The lines are split accordingly.
+    """
     with open(filename,'r') as f:
         lines=[]
         boolean_found_line=False
         for line in f:
-            if '1 1 ' in line:
+            # the first line is the soma point
+            if '1 1 ' in line: 
+                # set this flag and the start reading lines in.
                 boolean_found_line=True
             if boolean_found_line:
                 ll=line.strip('\n').lstrip(' ') #remove newline and left space
@@ -212,6 +228,11 @@ def read_swc(filename):
     return lines
 
 def plot_hines_sparsity(G):
+    """
+    This function make a sparsity matrix that describes the connectivity of the neuron graph.
+    This function takes in a graph object (G) and uses the edges information to
+    generate the sparsity matrix.
+    """
     rows=[]
     cols=[]
     for e in G.edges:
@@ -226,6 +247,12 @@ def plot_hines_sparsity(G):
     plt.show()
     
 def plot_neuron_r(G):
+    """
+    This function takes a graph object (G) and generates the plot
+    of the graph using the position attribute of the graph nodes and the radius attribute.
+    The radius attribute is used to color and set the width of the segments.
+    No return value, only a plot is generated. 
+    """
     rr=nx.get_node_attributes(G,'r').values()
     maxima=max(rr)
     minima=min(rr)
@@ -255,6 +282,11 @@ def plot_neuron_r(G):
     ax.view_init(90,-90,0)
 
 def plot_neuron(G):
+    """
+    This function takes a graph object (G) and generates the plot
+    of the graph using the position attribute of the graph nodes.
+    No return value, only a plot is generated. 
+    """
     pos={i:ps for (i,ps) in nx.get_node_attributes(G,'pos').items()}
     rad=[r for r in nx.get_node_attributes(G,'r').values()]
     
