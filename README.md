@@ -23,7 +23,7 @@ Here is a lists of tasks that need to be completed and questions that need to be
 + ~~Fix subset assignment in `.ugx` right now when you open the `.ugx` nothing appears because you have to manually select all and assign the subset DONE!~~:white_check_mark:
 + ~~Add jupyter-notebooks for more exploration of code.DONE!~~:white_check_mark:
 <p align="center">
-  <img src="./img/PROBLEMS.png" alt="Size Limit CLI" width="500">
+  <img src="./img/PROBLEMS.png" alt="Size Limit CLI" width="600">
 </p>
 
 + Question: I am using Pythons `scipy` module to realize the spline interpolation --> this needs to be studied further, what is the math used? a write up of how it is doing this would be nice :grey_question:
