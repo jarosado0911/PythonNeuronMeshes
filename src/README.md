@@ -29,7 +29,13 @@ The `renderneuron.py` file contains the following functions:
 ```
 - `plot_hines_sparsity(G)` This function make a sparsity matrix that describes the connectivity of the neuron graph. This function takes in a graph object (G) and uses the edges information to generate the sparsity matrix. Below is an example of a Hine sparsity pattern
 <p align="center">
-  <img src="./../img/hines.png" alt="Size Limit CLI" width="500">
+  <img src="./../img/hines.png" alt="Size Limit CLI" width="200">
 </p>
+
+- `plot_neuron_r(G)` This function takes a graph object (G) and generates the plot of the graph using the position attribute of the graph nodes and the radius attribute. The radius attribute is used to color and set the width of the segments. No return value, only a plot is generated. Below is an example plot:
+<p align="center">
+  <img src="./../img/plot1.png" alt="Size Limit CLI" width="200">
+</p>
+
 
 ### Parallel Frame Transport
