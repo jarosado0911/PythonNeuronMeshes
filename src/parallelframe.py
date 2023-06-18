@@ -122,9 +122,9 @@ def write_ugx(cont,npts,filename):
             for j in range(len(klst)):
                 npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
-                    s=str(cur)+' '+str(cur+ncirpts)+' '; num_of_edges+=1;
-                    s+=str(cur)+' '+str(cur+ncirpts-1)+' '; num_of_edges+=1;
                     if j != (len(klst)-1):
+                        s=str(cur)+' '+str(cur+ncirpts)+' '; num_of_edges+=1;
+                        s+=str(cur)+' '+str(cur+ncirpts-1)+' '; num_of_edges+=1;
                         f.write(s); 
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
@@ -140,9 +140,9 @@ def write_ugx(cont,npts,filename):
             for j in range(len(klst)):
                 npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
-                    s= str(cur+ncirpts)+' '+str(cur+1)+' '+str(cur)+' '; num_of_faces+=1;
-                    s+=str(cur)+' '+str(cur+ncirpts-1)+' '+str(cur+ncirpts)+' '; num_of_faces+=1;
                     if j != (len(klst)-1):
+                        s= str(cur+ncirpts)+' '+str(cur+1)+' '+str(cur)+' '; num_of_faces+=1;
+                        s+=str(cur)+' '+str(cur+ncirpts-1)+' '+str(cur+ncirpts)+' '; num_of_faces+=1;
                         f.write(s)
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
@@ -157,11 +157,11 @@ def write_ugx(cont,npts,filename):
             f.write(str(i)+' ')
         f.write('</vertices>\n')
         f.write('<edges>')
-        for i in range(num_of_edges-1):
+        for i in range(1,num_of_edges):
             f.write(str(i)+' ')
         f.write('</edges>\n')
         f.write('<faces>')
-        for i in range(num_of_faces-1):
+        for i in range(1,num_of_faces):
             f.write(str(i)+' ')
         f.write('</faces>\n')
         f.write('</subset>\n')
