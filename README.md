@@ -13,19 +13,19 @@ Contents
 ### Tasks!
 Here is a lists of tasks that need to be completed and questions that need to be answered
 
-+ ~~Generate surface triangulations that are saveed to `.ugx` format. DONE!~~
-+ Check orientation of surface triangulations i.e. check normals. TODO!
-+ IMPORTANT: RESOLVE SOMA!! --> use a ball?? see [`paper`](https://github.com/jarosado0911/PythonNeuronMeshes/blob/main/papers/1-s2.0-S0010482513000930-main%20(2).pdf) 
-+ IMPORTANT: RESOLVE BRANCH POINTS!! (see fig below)
-+ CLOSE THE END OF THE DENDRITES!!   (see fig below)
-+ ~~Fix subset assignment in `.ugx` right now when you open the `.ugx` nothing appears because you have to manually select all and assign the subset DONE!~~
-+ ~~Add jupyter-notebooks for more exploration of code.DONE!~~
++ ~~Generate surface triangulations that are saveed to `.ugx` format. DONE!~~:white_check_mark:
++ Check orientation of surface triangulations i.e. check normals.:x: TODO!
++ IMPORTANT: RESOLVE SOMA!! --> use a ball?? see [`paper`](https://github.com/jarosado0911/PythonNeuronMeshes/blob/main/papers/1-s2.0-S0010482513000930-main%20(2).pdf) :exclamation:
++ IMPORTANT: RESOLVE BRANCH POINTS!! :x:(see fig below)
++ CLOSE THE END OF THE DENDRITES!!  :x: (see fig below)
++ ~~Fix subset assignment in `.ugx` right now when you open the `.ugx` nothing appears because you have to manually select all and assign the subset DONE!~~:white_check_mark:
++ ~~Add jupyter-notebooks for more exploration of code.DONE!~~:white_check_mark:
 <p align="center">
   <img src="./img/PROBLEMS.png" alt="Size Limit CLI" width="500">
 </p>
 
-+ Question: I am using Pythons `scipy` module to realize the spline interpolation --> this needs to be studied further, what is the math used? a write up of how it is doing this would be nice
-+ Remove soma line segment that is present in original `.swc` file from [`NeuroMorpho.org`](https://neuromorpho.org/)?
++ Question: I am using Pythons `scipy` module to realize the spline interpolation --> this needs to be studied further, what is the math used? a write up of how it is doing this would be nice :grey_question:
++ Remove soma line segment that is present in original `.swc` file from [`NeuroMorpho.org`](https://neuromorpho.org/):grey_question:
  
 ### What?
 This project takes a `.swc` file downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/) and generates:
