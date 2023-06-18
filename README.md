@@ -14,7 +14,7 @@ Contents
 Here is a lists of tasks that need to be completed and questions that need to be answered
 
 + ~~Generate surface triangulations that are saveed to `.ugx` format. DONE!~~:white_check_mark:
-+ ~~Check orientation of surface triangulations i.e. check normals.:x: DONE!~~ :white_check_mark:
++ ~~Check orientation of surface triangulations i.e. check normals. DONE!~~ :white_check_mark:
 + IMPORTANT: RESOLVE SOMA!! --> use a ball?? see [`paper`](https://github.com/jarosado0911/PythonNeuronMeshes/blob/main/papers/1-s2.0-S0010482513000930-main%20(2).pdf) :exclamation:
 + IMPORTANT: RESOLVE BRANCH POINTS!! :x:(see fig below)
 + CLOSE THE END OF THE DENDRITES!!  :x: (see fig below)
