@@ -19,6 +19,13 @@ The `renderneuron.py` file contains the following functions:
 - `get_trunks(G)` this function takes in a graph object `Gin` and find the branch points and then collects the corresponding trunks that are between branch points. The function returns a dictionary `trunks` with keys that are the trunk number and the values are a list of node indices that are in the trunk (including the endpoints which are branch points). It also returns a graph object for each trunk.
 - `refine_and_save(G,path,n=5)` this function takes in a graph object, a filename, and the number of refinements to make. The function generates simple refinements and saves them to a `.swc` file
 - `save_to_swc(G,filename)` this function takes in a graph object `G` and a filename and saves the graph to a `.swc` file format to be visualized in [`Promesh4`](https://promesh3d.com/)
-- `read_swc(filename)` This function takes in a filename (.swc file) and reads the lines of the file into a variable called lines. The lines are split accordingly.
+- `read_swc(filename)` This function takes in a filename (`.swc` file) and reads the lines of the file into a variable called lines. The lines are split accordingly. For reference below is an example of the `.swc` file specification:
+```
+1 1 0.0 0.0 0.0 9.65903 -1
+2 1 2.91 -1.33 -0.26666666666666666 9.659030000000001 1
+3 1 -2.9066666666666667 1.33 0.26666666666666666 9.659030000000001 1
+4 3 5.413235451644908 8.564754898830946 -1.7700194690197044 5.904919712537043 1
+...
+```
 
 ### Parallel Frame Transport
