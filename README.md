@@ -15,6 +15,7 @@ Here is a lists of tasks that need to be completed and questions that need to be
 
 + ~~Generate surface triangulations that are saveed to `.ugx` format. DONE!~~:white_check_mark:
 + ~~Check orientation of surface triangulations i.e. check normals. DONE!~~ :white_check_mark:
++ ~~Fixed the "bad element" message in Promesh4, issue was too many indexes for edges/faces. DONE!~~ :white_check_mark:
 + I have executed the code on the commandline through WSL --> can this be done using Powershell or Gitbash? this would be nice to write up directions :grey_question:
 + IMPORTANT: RESOLVE SOMA!! --> use a ball?? see [`paper`](https://github.com/jarosado0911/PythonNeuronMeshes/blob/main/papers/1-s2.0-S0010482513000930-main%20(2).pdf) :exclamation:
 + IMPORTANT: RESOLVE BRANCH POINTS!! :x:(see fig below)
