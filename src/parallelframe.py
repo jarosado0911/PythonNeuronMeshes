@@ -89,17 +89,20 @@ def get_pft_frames(G,npts):
 def write_ugx(cont,npts,filename):
     cur=0; nxt=cur+1;
     ncirpts=npts;
-
+        
     with open(filename,'w') as f:
         f.write('<?xml version="1.0" encoding="utf-8"?>\n');
         f.write('<grid name="defGrid">\n');
         f.write('<vertices coords="3">\n');
         s=''
+        num_of_vertices=0;
+        num_of_edges=0;
+        num_of_faces=0;
         for ky0 in cont.keys():
             for ky1 in cont[ky0].keys():
                 for pos in cont[ky0][ky1]:
-                    s+=str(pos[0])+' '+str(pos[1])+' '+str(pos[2])+' '
-        f.write(s)
+                    s+=str(pos[0])+' '+str(pos[1])+' '+str(pos[2])+' '; num_of_vertices+=1;
+        f.write(s); 
         f.write('</vertices>\n');
         f.write('<edges>')
         for ky0 in cont.keys():
@@ -107,24 +110,27 @@ def write_ugx(cont,npts,filename):
                 init=cur
                 npts=len(cont[ky0][ky1])
                 for i in range(npts-1):
-                    s=str(cur)+' '+str(nxt)+' '
-                    f.write(s)
+                    s=str(cur)+' '+str(nxt)+' '; num_of_edges+=1;
+                    f.write(s);
                     cur=nxt; nxt+=1;
-                f.write(str(nxt-1)+' '+str(init)+' ')
+                f.write(str(nxt-1)+' '+str(init)+' '); num_of_edges+=1;
                 cur=nxt; nxt+=1;
-
+           
         cur=0; nxt=cur+1;
         for ky0 in cont.keys():
             klst=list(cont[ky0].keys())
             for j in range(len(klst)):
                 npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
-                    s=str(cur)+' '+str(cur+ncirpts)+' '
+                    s=str(cur)+' '+str(cur+ncirpts)+' '; num_of_edges+=1;
+                    s+=str(cur)+' '+str(cur+ncirpts-1)+' '; num_of_edges+=1;
                     if j != (len(klst)-1):
-                        f.write(s)
+                        f.write(s); 
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
-                    f.write(str(nxt-1)+' '+str(nxt-1+ncirpts)+' ')
+                    f.write(str(nxt-1)+' '+str(nxt-1+ncirpts)+' '); num_of_edges+=1;
+                    f.write(str(nxt-1)+' '+str(nxt-2+ncirpts)+' '); num_of_edges+=1;
+                    f.write(str(nxt-1)+' '+str(nxt)+' '); num_of_edges+=1;
                 cur=nxt; nxt+=1;
         f.write('</edges>\n')
         f.write('<triangles>')
@@ -134,16 +140,32 @@ def write_ugx(cont,npts,filename):
             for j in range(len(klst)):
                 npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
-                    s=str(cur)+' '+str(cur+1)+' '+str(cur+ncirpts)+' '
-                    s+=str(cur)+' '+str(cur+ncirpts-1)+' '+str(cur+ncirpts)+' '
+                    s=str(cur)+' '+str(cur+1)+' '+str(cur+ncirpts)+' '; num_of_faces+=1;
+                    s+=str(cur)+' '+str(cur+ncirpts-1)+' '+str(cur+ncirpts)+' '; num_of_faces+=1;
                     if j != (len(klst)-1):
                         f.write(s)
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
-                    f.write(str(nxt-1)+' '+str(nxt)+' '+str(nxt-1+ncirpts)+' ')
-                    f.write(str(nxt-1)+' '+str(nxt+ncirpts-2)+' '+str(nxt-1+ncirpts)+' ')
+                    f.write(str(nxt-1)+' '+str(nxt)+' '+str(nxt-1+ncirpts)+' '); num_of_faces+=1;
+                    f.write(str(nxt-1)+' '+str(nxt+ncirpts-2)+' '+str(nxt-1+ncirpts)+' '); num_of_faces+=1;
                 cur=nxt; nxt+=1;
         f.write('</triangles>\n')
+        f.write('<subset_handler name="defSH">\n')
+        f.write('<subset name="subset" color="0.588235 0.588235 1 1" state="393216">\n')
+        f.write('<vertices>')
+        for i in range(num_of_vertices):
+            f.write(str(i)+' ')
+        f.write('</vertices>\n')
+        f.write('<edges>')
+        for i in range(num_of_edges):
+            f.write(str(i)+' ')
+        f.write('</edges>\n')
+        f.write('<faces>')
+        for i in range(num_of_faces):
+            f.write(str(i)+' ')
+        f.write('</faces>\n')
+        f.write('</subset>\n')
+        f.write('</subset_handler>\n')
         f.write('<projection_handler name="defPH" subset_handler="0">\n');
         f.write('<default type="default">0 0</default>\n');
         f.write('</projection_handler>\n');
