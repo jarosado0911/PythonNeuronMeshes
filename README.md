@@ -98,7 +98,7 @@ When you git clone or download this project you should have the following items:
 + File `generate_meshes.py` is the main driver code which is described in the Usage section.
 
 ### Usage
-This usage example was done on `wsl`, is 'should' work on Linux terminal as well (pending you have all the correct version of python and modules). I will try to include directions for PowerShell and GitBash.
+This usage example was done on `wsl`, it 'should' work on Linux terminal as well (pending you have all the correct version of python and modules). I will try to include directions for PowerShell and GitBash.
 
 There is a file called `generate_meshes.py` if you execute in the commandline `python3 generate_mesh.py` you will receive the following output
 ```
