@@ -155,3 +155,6 @@ The difference between generating meshes using splines and without splines is sh
 - PFT on a torus: [`PFT Torus`](http://www.rdrop.com/~half/math/torus/parallel.transport.xhtml)
 
 Here is a video I made using Yale Neuron, there is a notebook in the `notebooks` folder where I do this:
+<p align="center">
+  <img src="./img/yaleneuron.gif" alt="Size Limit CLI" width="500">
+</p>
