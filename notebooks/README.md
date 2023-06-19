@@ -19,6 +19,10 @@ There is also an example video I made called `movie.mp4` showing electrical sign
 
 ## Files
 
+- The `Exploring_Functionality` goes through the process of reading an `.swc` file, making direct refinements, making spline refinements, and generating `.ugx` surface geometries
+
+- The `Running_Yale_Neuron_Simulation` goes through loading a `.swc` file, assigning Hodgkin Huxley mechanisms to the membrane, collecting cell information into a dictionary, setting up a current clamp simulation, running the simulation, and then making a video using a sequence of images. The notebook will make a directory called `images` where the images for the video are stored, the `images` directory is not part of this repo.
+
 ## Installation
 For this `Running_Yale_Neuron_Simulation` you will need Neuron 8.2.2, this is the version I used. For the the `Exploring_Functionality` notebook you will need the versions that are listed in the main `readme` of the project.
 
