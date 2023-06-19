@@ -15,4 +15,6 @@ Neuron is a simulation environment for modeling individual and networks of neuro
 
 Neuron models individual neurons via the use of sections that are automatically subdivided into individual compartments, instead of requiring the user to manually create compartments. The primary scripting language is hoc but a Python interface is also available. 
 
+There is also an example video I made called `movie.mp4` showing electrical signal propagation from a current clamp simulation inside the `Running_Yale_Neuron_Simulation` notebook.
+
 ## Files
