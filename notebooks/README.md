@@ -36,4 +36,4 @@ ffmpeg version 4.2.7-0ubuntu0.1 Copyright (c) 2000-2022 the FFmpeg developers
 ```
 Here is another video:
 
-https://github.com/jarosado0911/PythonNeuronMeshes/assets/57325500/8202f368-b1c0-4aa8-a41d-b6f44b1be511
+<img src="https://github.com/jarosado0911/PythonNeuronMeshes/assets/57325500/8202f368-b1c0-4aa8-a41d-b6f44b1be511" width="200">
