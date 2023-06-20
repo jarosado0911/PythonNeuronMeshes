@@ -35,5 +35,4 @@ ffmpeg version 4.2.7-0ubuntu0.1 Copyright (c) 2000-2022 the FFmpeg developers
   built with gcc 9 (Ubuntu 9.4.0-1ubuntu1~20.04.1)
 ```
 Here is another video:
-
-<img src="https://github.com/jarosado0911/PythonNeuronMeshes/assets/57325500/8202f368-b1c0-4aa8-a41d-b6f44b1be511" width="200">
+https://github.com/jarosado0911/PythonNeuronMeshes/assets/57325500/8202f368-b1c0-4aa8-a41d-b6f44b1be511
