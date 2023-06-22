@@ -27,6 +27,8 @@ The `renderneuron.py` file contains the following functions:
 4 3 5.413235451644908 8.564754898830946 -1.7700194690197044 5.904919712537043 1
 ...
 ```
+The format is the following: `[ID][TYPE][Xcoord][Ycoord][Zcoord][RADIUS][PID]` where `ID` is the node index number and `PID` is the Parent node index number.
+
 - `plot_hines_sparsity(G)` This function make a sparsity matrix that describes the connectivity of the neuron graph. This function takes in a graph object (G) and uses the edges information to generate the sparsity matrix. Below is an example of a Hine sparsity pattern
 <p align="center">
   <img src="./../img/hines.png" alt="Size Limit CLI" width="300">
