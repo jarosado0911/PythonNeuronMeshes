@@ -149,6 +149,11 @@ The difference between generating meshes using splines and without splines is sh
   <img src="./img/meshcomparison.png" alt="Size Limit CLI" width="500">
 </p>
 
+The parameter `c` affects the type of regular polygon used for the contours, in the figure below the far left mesh uses 32-ngons for contours and the far right uses equilateral triangles (3-gons) for contours.
+<p align="center">
+  <img src="./img/increasing_polygons.png" alt="Size Limit CLI" width="500">
+</p>
+
 ### Other
 - Here is a link to using parallel frame transport (PFT) with Unity: [`PFT`](https://giordi91.github.io/post/2018-31-07-parallel-transport/)
 - Here is another website that discussed parallel frames: [`Mathematical Visualization SS 2013`](http://dgd.service.tu-berlin.de/wordpress/vismathss2013/2013/06/)
