@@ -47,7 +47,7 @@ if (args.spline):
         rn.save_to_swc(GS,OUTPUT_DIR+'/refinement'+str(i)+'.swc')
         cont=pf.get_pft_frames(GS,npts)
         outfilename=OUTPUT_DIR+'/mesh'+str(i)+'.ugx'
-        pf.write_ugx(cont,npts,outfilename)
+        pf.write_ugx(cont,GS,npts,outfilename)
     print(' Done!')
 else:
     GG=rn.refine_and_save(G,OUTPUT_DIR+'/',int(n))
@@ -55,6 +55,6 @@ else:
         H=GG[i]
         cont=pf.get_pft_frames(H,npts)
         outfilename=OUTPUT_DIR+'/mesh'+str(i)+'.ugx'
-        pf.write_ugx(cont,npts,outfilename)
+        pf.write_ugx(cont,H,npts,outfilename)
     trunks,T=rn.get_trunks(G)
     rn.save_to_swc(T,OUTPUT_DIR+'/trunks.swc')
