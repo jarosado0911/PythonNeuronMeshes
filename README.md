@@ -153,7 +153,7 @@ The difference between generating meshes using splines and without splines is sh
 - Another interesting link: [`Tutorial 3: Framed Closed Curves`](http://wordpress.discretization.de/ddg2016/2016/05/10/tutorial-3-framed-closed-curves/)
 - Video on PFT: [`TD Essentials: Parallel Transport`](https://www.youtube.com/watch?v=5LedteSEgOE)
 - PFT on a torus: [`PFT Torus`](http://www.rdrop.com/~half/math/torus/parallel.transport.xhtml)
-
+- Here is alink on spline interpolation for C#: [`C# Spline`](https://swharden.com/blog/2022-01-22-spline-interpolation/)
 Here is a video I made using Yale Neuron, there is a notebook in the `notebooks` folder where I do this:
 <p align="center">
   <img src="./img/yaleneuron.gif" alt="Size Limit CLI" width="500">
