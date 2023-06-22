@@ -150,6 +150,8 @@ def write_ugx(cont,npts,filename):
                     f.write(str(nxt-1)+' '+str(nxt+ncirpts-2)+' '+str(nxt-1+ncirpts)+' '); num_of_faces+=1;
                 cur=nxt; nxt+=1;
         f.write('</triangles>\n')
+        f.write('<vertex_attachment name="npMapping" type="Mapping" passOn="1" global="1">')
+        f.write('</vertex_attachment>\n')
         f.write('<subset_handler name="defSH">\n')
         f.write('<subset name="Neurites" color="0.588235 0.588235 1 1" state="0">\n')
         f.write('<vertices>')
