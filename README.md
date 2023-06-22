@@ -161,7 +161,7 @@ The parameter `c` affects the type of regular polygon used for the contours, in 
 - Video on PFT: [`TD Essentials: Parallel Transport`](https://www.youtube.com/watch?v=5LedteSEgOE)
 - PFT on a torus: [`PFT Torus`](http://www.rdrop.com/~half/math/torus/parallel.transport.xhtml)
 - Here is alink on spline interpolation for C#: [`C# Spline`](https://swharden.com/blog/2022-01-22-spline-interpolation/)
-Here is a video I made using Yale Neuron, there is a notebook in the `notebooks` folder where I do this:
+- Here is a video I made using Yale Neuron, there is a notebook in the `notebooks` folder where I do this:
 <p align="center">
-  <img src="./img/yaleneuron.gif" alt="Size Limit CLI" width="500">
+  <img src="./img/yaleneuron.gif" alt="Size Limit CLI" width="400">
 </p>
