@@ -151,7 +151,7 @@ def write_ugx(cont,npts,filename):
                 cur=nxt; nxt+=1;
         f.write('</triangles>\n')
         f.write('<subset_handler name="defSH">\n')
-        f.write('<subset name="subset" color="0.588235 0.588235 1 1" state="393216">\n')
+        f.write('<subset name="Neurites" color="0.588235 0.588235 1 1" state="0">\n')
         f.write('<vertices>')
         for i in range(num_of_vertices):
             f.write(str(i)+' ')
