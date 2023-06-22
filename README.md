@@ -92,6 +92,13 @@ Here is WSL information
 
 Welcome to Ubuntu 20.04.2 LTS (GNU/Linux 5.4.72-microsoft-standard-WSL2 x86_64)
 ```
+If you are using Windows, then look here for a training module on WSL: [`Module-WSL`](https://learn.microsoft.com/en-us/training/modules/wsl-introduction/)
+
+I also use [`Jupyter Notebooks`](https://jupyter.org/) when developing the code, I found it easy to work with and maneuver through the codes. In `wsl` I called 
+```
+jupyter-notebook --allow-root --no-browser
+```
+and then select one of the links to copy and paste into a browser (Chrome worked for me).
 ### Project Contents
 When you git clone or download this project you should have the following items:
 + Folder `cells` contains some [`NeuroMorpho.org`](https://neuromorpho.org/) cells in `.swc` format
