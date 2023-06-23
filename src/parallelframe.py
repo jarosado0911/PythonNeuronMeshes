@@ -90,10 +90,83 @@ def get_pft_frames(G,npts):
         #centerpt[ky]=cnterpt
     return contour#,centerpt
 
+def write_1d_ugx(G,filename):
+    with open(filename,'w') as f:
+        soma_points=[]; neurite_points=[];
+        soma_edges=[]; neurite_edges=[];        
+        point_cnt=0; edge_cnt=0;
+        
+        f.write('<?xml version="1.0" encoding="utf-8"?>\n');
+        f.write('<grid name="defGrid">\n');
+        f.write('<vertices coords="3">');
+        for i in range(1,len(G)+1):
+            if G.nodes[i]['t']==1:
+                soma_points.append(point_cnt)
+            else:
+                neurite_points.append(point_cnt)
+                
+            x=G.nodes[i]['pos'][0]; y=G.nodes[i]['pos'][1]; z=G.nodes[i]['pos'][2];
+            line=str(x)+' '+str(y)+' '+str(z)+' '
+            f.write(line); point_cnt+=1
+        f.write('</vertices>\n');
+        f.write('<edges>');
+        for i in range(1,len(G)+1):
+            ll=list(G.predecessors(i))
+            if not ll:
+                continue #pid=-1
+            else:
+                pid=ll[0]
+            line=str(i-1)+' '+str(pid-1)+' '
+            
+            if G.nodes[pid]['t']==1:
+                soma_edges.append(edge_cnt)
+            else:
+                neurite_edges.append(edge_cnt)
+            edge_cnt+=1
+            
+            f.write(line)
+        f.write('</edges>\n');
+        f.write('<vertex_attachment name="diameter" type="double" passOn="0" global="1">');
+        for i in range(1,len(G)+1):
+            r=G.nodes[i]['r']
+            line=str(r)+' '
+            f.write(line)
+        f.write('</vertex_attachment>\n');
+        f.write('<subset_handler name="defSH">');
+        f.write('<subset name="Neurites" color="0.588235 0.588235 1 1" state="0">\n')
+        f.write('<vertices>')
+        for i in neurite_points: 
+            f.write(str(i)+' ')
+        f.write('</vertices>\n')
+        f.write('<edges>')
+        for i in neurite_edges: 
+            f.write(str(i)+' ')
+        f.write('</edges>\n')
+        f.write('</subset>\n')
+        f.write('<subset name="Soma" color="1 0 0" state="0">\n')
+        f.write('<vertices>')
+        for i in soma_points: 
+            f.write(str(i)+' ')
+        f.write('</vertices>\n')
+        f.write('<edges>')
+        for i in soma_edges: 
+            f.write(str(i)+' ')
+        f.write('</edges>\n')
+        f.write('</subset>\n')
+        f.write('</subset_handler>');
+        f.write('<projection_handler name="defPH" subset_handler="0">\n');
+        f.write('<default type="default">0 0</default>\n');
+        f.write('</projection_handler>\n');
+        f.write('</grid>');
+                
 def write_ugx(cont,G,npts,filename):
     cur=0; nxt=cur+1;
     ncirpts=npts;
-        
+    
+    soma_faces=[]; neurite_faces=[];
+    soma_edges=[]; neurite_edges=[];
+    soma_points=[]; neurite_points=[];
+    
     with open(filename,'w') as f:
         f.write('<?xml version="1.0" encoding="utf-8"?>\n');
         f.write('<grid name="defGrid">\n');
@@ -105,7 +178,12 @@ def write_ugx(cont,G,npts,filename):
         for ky0 in cont.keys():
             for ky1 in cont[ky0].keys():
                 for pos in cont[ky0][ky1]:
+                    if G.nodes[ky1]['t']==1:
+                        soma_points.append(num_of_vertices);
+                    else:
+                        neurite_points.append(num_of_vertices);
                     s+=str(pos[0])+' '+str(pos[1])+' '+str(pos[2])+' '; num_of_vertices+=1;
+                    
         f.write(s); 
         f.write('</vertices>\n');
         f.write('<edges>')
@@ -114,10 +192,21 @@ def write_ugx(cont,G,npts,filename):
                 init=cur
                 npts=len(cont[ky0][ky1])
                 for i in range(npts-1):
-                    s=str(cur)+' '+str(nxt)+' '; num_of_edges+=1;
+                    s=str(cur)+' '+str(nxt)+' '; 
                     f.write(s);
                     cur=nxt; nxt+=1;
-                f.write(str(nxt-1)+' '+str(init)+' '); num_of_edges+=1;
+                    if G.nodes[ky1]['t']==1:
+                        soma_edges.append(num_of_edges);
+                    else:
+                        neurite_edges.append(num_of_edges);
+                    num_of_edges+=1;
+                    
+                f.write(str(nxt-1)+' '+str(init)+' '); 
+                if G.nodes[ky1]['t']==1:
+                    soma_edges.append(num_of_edges);
+                else:
+                    neurite_edges.append(num_of_edges);
+                num_of_edges+=1;
                 cur=nxt; nxt+=1;
            
         cur=0; nxt=cur+1;
@@ -127,11 +216,26 @@ def write_ugx(cont,G,npts,filename):
                 npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
                     if j != (len(klst)-1):
+                        if G.nodes[klst[j]]['t']==1:
+                            soma_edges.append(num_of_edges);
+                            soma_edges.append(num_of_edges+1);
+                        else:
+                            neurite_edges.append(num_of_edges-1);
+                            neurite_edges.append(num_of_edges);
                         s=str(cur)+' '+str(cur+ncirpts)+' '; num_of_edges+=1;
                         s+=str(cur)+' '+str(cur+ncirpts-1)+' '; num_of_edges+=1;
+                        
                         f.write(s); 
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
+                    if G.nodes[klst[j]]['t']==1:
+                        soma_edges.append(num_of_edges);
+                        soma_edges.append(num_of_edges+1);
+                        soma_edges.append(num_of_edges+2);
+                    else:
+                        neurite_edges.append(num_of_edges);
+                        neurite_edges.append(num_of_edges+1);
+                        neurite_edges.append(num_of_edges+2);
                     f.write(str(nxt-1)+' '+str(nxt-1+ncirpts)+' '); num_of_edges+=1;
                     f.write(str(nxt-1)+' '+str(nxt-2+ncirpts)+' '); num_of_edges+=1;
                     f.write(str(nxt-1)+' '+str(nxt)+' '); num_of_edges+=1;
@@ -145,13 +249,27 @@ def write_ugx(cont,G,npts,filename):
                 npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
                     if j != (len(klst)-1):
+                        if G.nodes[klst[j]]['t']==1:
+                            soma_faces.append(num_of_faces);
+                            soma_faces.append(num_of_faces+1);
+                        else:
+                            neurite_faces.append(num_of_faces);
+                            neurite_faces.append(num_of_faces+1);
                         s= str(cur+ncirpts)+' '+str(cur+1)+' '+str(cur)+' '; num_of_faces+=1;
                         s+=str(cur)+' '+str(cur+ncirpts-1)+' '+str(cur+ncirpts)+' '; num_of_faces+=1;
+                        
                         f.write(s)
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
+                    if G.nodes[klst[j]]['t']==1:
+                        soma_faces.append(num_of_faces);
+                        soma_faces.append(num_of_faces+1);
+                    else:
+                        neurite_faces.append(num_of_faces);
+                        neurite_faces.append(num_of_faces+1);
                     f.write( str(nxt-1+ncirpts)+' '+str(nxt)+' '+str(nxt-1)+' '); num_of_faces+=1;
                     f.write(str(nxt-1)+' '+str(nxt+ncirpts-2)+' '+str(nxt-1+ncirpts)+' '); num_of_faces+=1;
+                    
                 cur=nxt; nxt+=1;
         f.write('</triangles>\n')
         f.write('<vertex_attachment name="npMapping" type="Mapping" passOn="1" global="1">')
@@ -164,15 +282,29 @@ def write_ugx(cont,G,npts,filename):
         f.write('<subset_handler name="defSH">\n')
         f.write('<subset name="Neurites" color="0.588235 0.588235 1 1" state="0">\n')
         f.write('<vertices>')
-        for i in range(num_of_vertices):
+        for i in neurite_points: #range(num_of_vertices):
             f.write(str(i)+' ')
         f.write('</vertices>\n')
         f.write('<edges>')
-        for i in range(1,num_of_edges):
+        for i in neurite_edges: #range(1,num_of_edges):
             f.write(str(i)+' ')
         f.write('</edges>\n')
         f.write('<faces>')
-        for i in range(1,num_of_faces):
+        for i in neurite_faces: #range(1,num_of_faces):
+            f.write(str(i)+' ')
+        f.write('</faces>\n')
+        f.write('</subset>\n')
+        f.write('<subset name="Soma" color="1 0 0" state="0">\n')
+        f.write('<vertices>')
+        for i in soma_points: #range(num_of_vertices):
+            f.write(str(i)+' ')
+        f.write('</vertices>\n')
+        f.write('<edges>')
+        for i in soma_edges: #range(num_of_vertices):
+            f.write(str(i)+' ')
+        f.write('</edges>\n')
+        f.write('<faces>')
+        for i in soma_faces: #range(num_of_vertices):
             f.write(str(i)+' ')
         f.write('</faces>\n')
         f.write('</subset>\n')
