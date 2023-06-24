@@ -45,6 +45,7 @@ if (args.spline):
         GS=rn.spline_neuron(G,dx[i])
         print(str(dx[i]),' ',end='')
         rn.save_to_swc(GS,OUTPUT_DIR+'/refinement'+str(i)+'.swc')
+        pf.write_1d_ugx(GS,OUTPUT_DIR+'/refinement'+str(i)+'.ugx')
         cont=pf.get_pft_frames(GS,npts)
         outfilename=OUTPUT_DIR+'/mesh'+str(i)+'.ugx'
         pf.write_ugx(cont,GS,npts,outfilename)
@@ -56,5 +57,6 @@ else:
         cont=pf.get_pft_frames(H,npts)
         outfilename=OUTPUT_DIR+'/mesh'+str(i)+'.ugx'
         pf.write_ugx(cont,H,npts,outfilename)
+        pf.write_1d_ugx(H,OUTPUT_DIR+'/refinement'+str(i)+'.ugx')
     trunks,T=rn.get_trunks(G)
     rn.save_to_swc(T,OUTPUT_DIR+'/trunks.swc')

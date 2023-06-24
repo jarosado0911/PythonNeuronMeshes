@@ -118,7 +118,7 @@ def write_1d_ugx(G,filename):
                 pid=ll[0]
             line=str(i-1)+' '+str(pid-1)+' '
             
-            if G.nodes[pid]['t']==1:
+            if G.nodes[i]['t']==1:
                 soma_edges.append(edge_cnt)
             else:
                 neurite_edges.append(edge_cnt)
@@ -176,33 +176,54 @@ def write_ugx(cont,G,npts,filename):
         num_of_edges=0;
         num_of_faces=0;
         for ky0 in cont.keys():
-            for ky1 in cont[ky0].keys():
-                for pos in cont[ky0][ky1]:
-                    if G.nodes[ky1]['t']==1:
-                        soma_points.append(num_of_vertices);
+            klst=list(cont[ky0].keys())
+            for j in range(len(klst)):
+            #for ky1 in cont[ky0].keys():
+                #for pos in cont[ky0][ky1]:
+                 for pos in cont[ky0][klst[j]]:
+                    #if G.nodes[ky1]['t']==1:
+                    if j != (len(klst)-1):
+                        if G.nodes[klst[j+1]]['t']==1:
+                            soma_points.append(num_of_vertices);
+                        else:
+                            neurite_points.append(num_of_vertices);
                     else:
-                        neurite_points.append(num_of_vertices);
+                        if G.nodes[klst[j]]['t']==1:
+                            soma_points.append(num_of_vertices);
+                        else:
+                            neurite_points.append(num_of_vertices);
                     s+=str(pos[0])+' '+str(pos[1])+' '+str(pos[2])+' '; num_of_vertices+=1;
                     
         f.write(s); 
         f.write('</vertices>\n');
         f.write('<edges>')
         for ky0 in cont.keys():
-            for ky1 in cont[ky0].keys():
+            klst=list(cont[ky0].keys())
+            for j in range(len(klst)):
+            #for ky1 in cont[ky0].keys():
                 init=cur
-                npts=len(cont[ky0][ky1])
+                #npts=len(cont[ky0][ky1])
+                npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
                     s=str(cur)+' '+str(nxt)+' '; 
                     f.write(s);
                     cur=nxt; nxt+=1;
-                    if G.nodes[ky1]['t']==1:
-                        soma_edges.append(num_of_edges);
+                    #if G.nodes[ky1]['t']==1:
+                    if j != (len(klst)-1):
+                        if (G.nodes[klst[j+1]]['t']==1):
+                            soma_edges.append(num_of_edges);
+                        else:
+                            neurite_edges.append(num_of_edges);
                     else:
-                        neurite_edges.append(num_of_edges);
+                        if (G.nodes[klst[j]]['t']==1):
+                            soma_edges.append(num_of_edges);
+                        else:
+                            neurite_edges.append(num_of_edges);
                     num_of_edges+=1;
                     
                 f.write(str(nxt-1)+' '+str(init)+' '); 
-                if G.nodes[ky1]['t']==1:
+                #if G.nodes[ky1]['t']==1:
+                if (G.nodes[klst[j]]['t']==1):
                     soma_edges.append(num_of_edges);
                 else:
                     neurite_edges.append(num_of_edges);
@@ -216,19 +237,19 @@ def write_ugx(cont,G,npts,filename):
                 npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
                     if j != (len(klst)-1):
-                        if G.nodes[klst[j]]['t']==1:
+                        if (G.nodes[klst[j+1]]['t']==1): #and (G.nodes[klst[j]]['t']==1):
                             soma_edges.append(num_of_edges);
                             soma_edges.append(num_of_edges+1);
                         else:
-                            neurite_edges.append(num_of_edges-1);
                             neurite_edges.append(num_of_edges);
+                            neurite_edges.append(num_of_edges+1);
                         s=str(cur)+' '+str(cur+ncirpts)+' '; num_of_edges+=1;
                         s+=str(cur)+' '+str(cur+ncirpts-1)+' '; num_of_edges+=1;
                         
                         f.write(s); 
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
-                    if G.nodes[klst[j]]['t']==1:
+                    if G.nodes[klst[j+1]]['t']==1: #and (G.nodes[klst[j]]['t']==1):
                         soma_edges.append(num_of_edges);
                         soma_edges.append(num_of_edges+1);
                         soma_edges.append(num_of_edges+2);
@@ -249,7 +270,7 @@ def write_ugx(cont,G,npts,filename):
                 npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
                     if j != (len(klst)-1):
-                        if G.nodes[klst[j]]['t']==1:
+                        if G.nodes[klst[j+1]]['t']==1:
                             soma_faces.append(num_of_faces);
                             soma_faces.append(num_of_faces+1);
                         else:
@@ -261,7 +282,7 @@ def write_ugx(cont,G,npts,filename):
                         f.write(s)
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
-                    if G.nodes[klst[j]]['t']==1:
+                    if G.nodes[klst[j+1]]['t']==1:
                         soma_faces.append(num_of_faces);
                         soma_faces.append(num_of_faces+1);
                     else:
