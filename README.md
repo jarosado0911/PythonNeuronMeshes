@@ -35,7 +35,9 @@ Here is a lists of tasks that need to be completed and questions that need to be
 <p align="center">
   <img src="./img/soma-neurite.png" alt="Size Limit CLI" width="500">
 </p>
+
 + Now can handle subsets
+
 <p align="center">
   <img src="./img/mesh_subsets.png" alt="Size Limit CLI" width="500">
 </p>
