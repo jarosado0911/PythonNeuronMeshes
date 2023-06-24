@@ -30,6 +30,12 @@ Here is a lists of tasks that need to be completed and questions that need to be
 
 + Question: I am using Pythons `scipy` module to realize the spline interpolation --> this needs to be studied further, what is the math used? a write up of how it is doing this would be nice :grey_question:
 + Remove soma line segment that is present in original `.swc` file from [`NeuroMorpho.org`](https://neuromorpho.org/):grey_question:
+
++ Currently the `.ugx` geometries only distinguish between two subsets, the neurites and the soma, below is a figure from [`Promesh4`](https://promesh3d.com/). I would like to improve the writing to `.ugx` to be more elegant and handle a variety of subsets (for the 1d and surface meshes).
+<p align="center">
+  <img src="./img/soma-neurite.png" alt="Size Limit CLI" width="600">
+</p>
+
  
 ### What?
 This project takes a `.swc` file downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/) and generates:
