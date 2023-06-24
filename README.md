@@ -33,9 +33,12 @@ Here is a lists of tasks that need to be completed and questions that need to be
 
 + ~~Currently the `.ugx` geometries only distinguish between two subsets, the neurites and the soma, below is a figure from [`Promesh4`](https://promesh3d.com/). I would like to improve the writing to `.ugx` to be more elegant and handle a variety of subsets (for the 1d and surface meshes). DONE!~~:white_check_mark:
 <p align="center">
-  <img src="./img/soma-neurite.png" alt="Size Limit CLI" width="600">
+  <img src="./img/soma-neurite.png" alt="Size Limit CLI" width="500">
 </p>
-
++ Now can handle subsets
+<p align="center">
+  <img src="./img/mesh_subsets.png" alt="Size Limit CLI" width="500">
+</p>
  
 ### What?
 This project takes a `.swc` file downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/) and generates:
