@@ -110,6 +110,7 @@ I also use [`Jupyter Notebooks`](https://jupyter.org/) when developing the code,
 jupyter-notebook --allow-root --no-browser
 ```
 and then select one of the links to copy and paste into a browser (Chrome worked for me).
+You can also try using `VSCODE` I haven't use this, but it should work just as well
 ### Project Contents
 When you git clone or download this project you should have the following items:
 + Folder `cells` contains some [`NeuroMorpho.org`](https://neuromorpho.org/) cells in `.swc` format
