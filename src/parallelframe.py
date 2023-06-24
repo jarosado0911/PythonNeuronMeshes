@@ -159,6 +159,153 @@ def write_1d_ugx(G,filename):
         f.write('</projection_handler>\n');
         f.write('</grid>');
                 
+def write_ugx_subsets(cont,G,npts,filename):
+    subsets=[]
+    
+    clr={1: [1,0,0], 2:[0,1,0], 3: [0,0,1], 4:[0.5,0.5,1],5:[1,1,0.5],6:[0.5,1,1] ,7:[1,0.5,0.5]}
+    
+    for i in range(1,len(G.nodes())+1):
+           if G.nodes[i]['t'] not in subsets:
+                   subsets.append(G.nodes[i]['t'])
+                    
+    subset_points={}; subset_edges={}; subset_faces={};
+    for i in subsets:
+        subset_points[i]=[]; subset_edges[i]=[]; subset_faces[i]=[];
+    
+    num_of_vertices=0; num_of_edges=0; num_of_faces=0;
+    
+    with open(filename,'w') as f:
+        f.write('<?xml version="1.0" encoding="utf-8"?>\n');
+        f.write('<grid name="defGrid">\n');
+        f.write('<vertices coords="3">\n');
+        s=''
+        
+        # add the vertices to the .ugx
+        for ky0 in cont.keys(): # iterate through trunks
+            klst=list(cont[ky0].keys()) # list of trunk vertices
+            for j in range(len(klst)): # iterate through trunk vertices
+                for pos in cont[ky0][klst[j]]:
+                    if j!=(len(klst)-1):
+                        t=G.nodes[klst[j+1]]['t']
+                    else:
+                        t=G.nodes[klst[j]]['t']
+                    subset_points[t].append(num_of_vertices)
+                    s+=str(pos[0])+' '+str(pos[1])+' '+str(pos[2])+' '; num_of_vertices+=1;   
+        f.write(s); 
+        f.write('</vertices>\n');
+        
+        cur=0; nxt=cur+1;
+        ncirpts=npts;
+        
+        f.write('<edges>')
+        for ky0 in cont.keys():
+            klst=list(cont[ky0].keys())
+            for j in range(len(klst)):
+                init=cur
+                npts=len(cont[ky0][klst[j]])
+                for i in range(npts-1):
+                    s=str(cur)+' '+str(nxt)+' '; 
+                    f.write(s);
+                    cur=nxt; nxt+=1;
+                    if j!=(len(klst)-1):
+                        t=G.nodes[klst[j+1]]['t']
+                    else:
+                        t=G.nodes[klst[j]]['t']
+                    subset_edges[t].append(num_of_edges)
+                    num_of_edges+=1;
+                f.write(str(nxt-1)+' '+str(init)+' '); 
+                if j!=(len(klst)-1):
+                    t=G.nodes[klst[j+1]]['t']
+                else:
+                    t=G.nodes[klst[j]]['t']
+                subset_edges[t].append(num_of_edges)
+                num_of_edges+=1;
+                cur=nxt; nxt+=1;
+
+        cur=0; nxt=cur+1;
+        for ky0 in cont.keys():
+            klst=list(cont[ky0].keys())
+            for j in range(len(klst)):
+                npts=len(cont[ky0][klst[j]])
+                for i in range(npts-1):
+                    if j != (len(klst)-1):
+                        t=G.nodes[klst[j+1]]['t']                        
+                        subset_edges[t].append(num_of_edges)
+                        subset_edges[t].append(num_of_edges+1)
+                        s=str(cur)+' '+str(cur+ncirpts)+' '; num_of_edges+=1;
+                        s+=str(cur)+' '+str(cur+ncirpts-1)+' '; num_of_edges+=1;
+                        f.write(s); 
+                    cur=nxt; nxt+=1;
+                if j != (len(klst)-1):
+                    t=G.nodes[klst[j+1]]['t']
+                    subset_edges[t].append(num_of_edges)
+                    subset_edges[t].append(num_of_edges+1)
+                    subset_edges[t].append(num_of_edges+2)
+                    f.write(str(nxt-1)+' '+str(nxt-1+ncirpts)+' '); num_of_edges+=1;
+                    f.write(str(nxt-1)+' '+str(nxt-2+ncirpts)+' '); num_of_edges+=1;
+                    f.write(str(nxt-1)+' '+str(nxt)+' '); num_of_edges+=1;
+                cur=nxt; nxt+=1;
+        f.write('</edges>\n')    
+        f.write('<triangles>')
+        cur=0; nxt=cur+1;
+        for ky0 in cont.keys():
+            klst=list(cont[ky0].keys())
+            for j in range(len(klst)):
+                npts=len(cont[ky0][klst[j]])
+                for i in range(npts-1):
+                    if j != (len(klst)-1):
+                        t=G.nodes[klst[j+1]]['t']
+                        subset_faces[t].append(num_of_faces)
+                        subset_faces[t].append(num_of_faces+1)
+                        s= str(cur+ncirpts)+' '+str(cur+1)+' '+str(cur)+' '; num_of_faces+=1;
+                        s+=str(cur)+' '+str(cur+ncirpts-1)+' '+str(cur+ncirpts)+' '; num_of_faces+=1;
+                        
+                        f.write(s)
+                    cur=nxt; nxt+=1;
+                if j != (len(klst)-1):
+                    t=G.nodes[klst[j+1]]['t']
+                    subset_faces[t].append(num_of_faces)
+                    subset_faces[t].append(num_of_faces+1)
+                    f.write( str(nxt-1+ncirpts)+' '+str(nxt)+' '+str(nxt-1)+' '); num_of_faces+=1;
+                    f.write(str(nxt-1)+' '+str(nxt+ncirpts-2)+' '+str(nxt-1+ncirpts)+' '); num_of_faces+=1;
+                cur=nxt; nxt+=1;
+        f.write('</triangles>\n')
+        f.write('<vertex_attachment name="npMapping" type="Mapping" passOn="1" global="1">')
+        for ky0 in cont.keys():
+            for ky1 in cont[ky0].keys():
+                for pos in cont[ky0][ky1]:
+                    xc=G.nodes('pos')[ky1][0]; yc=G.nodes('pos')[ky1][1]; zc=G.nodes('pos')[ky1][2];
+                    f.write(str(xc)+' '+str(yc)+' '+str(zc)+' ')
+        f.write('</vertex_attachment>\n')
+        f.write('<subset_handler name="defSH">\n')
+        for i in subsets:
+            cl='"'+str(clr[i][0])+' '+str(clr[i][1])+' '+str(clr[i][2])+'"'
+            f.write('<subset name="Neurites'+str(i)+'" color='+cl+' state="0">\n')
+            f.write('<vertices>')
+            s=''
+            for p in subset_points[i]:
+                s+=str(p)+' '
+            f.write(s)
+            f.write('</vertices>\n')
+            f.write('<edges>')
+            s=''
+            for p in subset_edges[i]:
+                s+=str(p)+' '
+            f.write(s)
+            f.write('</edges>\n')
+            f.write('<faces>')
+            s=''
+            for p in subset_faces[i]:
+                s+=str(p)+' '
+            f.write(s)
+            f.write('</faces>\n')
+            f.write('</subset>\n')
+        f.write('</subset_handler>\n')
+        f.write('<projection_handler name="defPH" subset_handler="0">\n');
+        f.write('<default type="default">0 0</default>\n');
+        f.write('</projection_handler>\n');
+        f.write('</grid>');
+        
 def write_ugx(cont,G,npts,filename):
     cur=0; nxt=cur+1;
     ncirpts=npts;
@@ -196,6 +343,7 @@ def write_ugx(cont,G,npts,filename):
                     
         f.write(s); 
         f.write('</vertices>\n');
+        #####################################################################
         f.write('<edges>')
         for ky0 in cont.keys():
             klst=list(cont[ky0].keys())
@@ -222,11 +370,16 @@ def write_ugx(cont,G,npts,filename):
                     num_of_edges+=1;
                     
                 f.write(str(nxt-1)+' '+str(init)+' '); 
-                #if G.nodes[ky1]['t']==1:
-                if (G.nodes[klst[j]]['t']==1):
-                    soma_edges.append(num_of_edges);
+                if j != (len(klst)-1):
+                    if (G.nodes[klst[j+1]]['t']==1):
+                        soma_edges.append(num_of_edges);
+                    else:
+                        neurite_edges.append(num_of_edges);
                 else:
-                    neurite_edges.append(num_of_edges);
+                    if (G.nodes[klst[j]]['t']==1):
+                        soma_edges.append(num_of_edges);
+                    else:
+                        neurite_edges.append(num_of_edges);
                 num_of_edges+=1;
                 cur=nxt; nxt+=1;
            
@@ -262,6 +415,7 @@ def write_ugx(cont,G,npts,filename):
                     f.write(str(nxt-1)+' '+str(nxt)+' '); num_of_edges+=1;
                 cur=nxt; nxt+=1;
         f.write('</edges>\n')
+        ##########################################################################################
         f.write('<triangles>')
         cur=0; nxt=cur+1;
         for ky0 in cont.keys():
@@ -290,7 +444,6 @@ def write_ugx(cont,G,npts,filename):
                         neurite_faces.append(num_of_faces+1);
                     f.write( str(nxt-1+ncirpts)+' '+str(nxt)+' '+str(nxt-1)+' '); num_of_faces+=1;
                     f.write(str(nxt-1)+' '+str(nxt+ncirpts-2)+' '+str(nxt-1+ncirpts)+' '); num_of_faces+=1;
-                    
                 cur=nxt; nxt+=1;
         f.write('</triangles>\n')
         f.write('<vertex_attachment name="npMapping" type="Mapping" passOn="1" global="1">')
