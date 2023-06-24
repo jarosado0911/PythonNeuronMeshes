@@ -17,8 +17,8 @@ Here is a lists of tasks that need to be completed and questions that need to be
 + ~~Check orientation of surface triangulations i.e. check normals. DONE!~~ :white_check_mark:
 + ~~Fixed the "bad element" message in Promesh4, issue was too many indexes for edges/faces. DONE!~~ :white_check_mark:
 + I have executed the code on the commandline through WSL --> can this be done using Powershell or Gitbash? this would be nice to write up directions :grey_question:
-+ ~~ADD MAPPING TO .UGX FILE --> TODO!:collision:~~ Need to have checked :warning: :construction:
-+ TURN 1D .SWC TO .UGX (MAKE SURE INDEXING MATCHED .UGX SURFACE MAPPING) --> TODO!:collision:
++ ~~ADD MAPPING TO .UGX FILE --> TODO!:collision:~~ Have to check :warning: :construction:
++ ~~TURN 1D .SWC TO .UGX (MAKE SURE INDEXING MATCHED .UGX SURFACE MAPPING) --> TODO!:collision:~~ Have to check :warning: :construction:
 + IMPORTANT: RESOLVE SOMA!! --> use a ball?? see [`paper`](https://github.com/jarosado0911/PythonNeuronMeshes/blob/main/papers/MeshQualityOriented3DGeometricVascularModelingBasedOnParallelTransport.pdf) :exclamation:
 + IMPORTANT: RESOLVE BRANCH POINTS!! :x:(see fig below)
 + CLOSE THE END OF THE DENDRITES!!  :x: (see fig below)
