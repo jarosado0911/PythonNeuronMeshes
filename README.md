@@ -12,7 +12,7 @@ Contents
 
 ### Tasks!
 Here is a lists of tasks that need to be completed and questions that need to be answered
-
++ Can now generate meshes for NeuroVisor in Unity :white_check_mark:, but the mapping is not right --> TO DO! :warning: :construction:
 + ~~Generate surface triangulations that are saveed to `.ugx` format. DONE!~~:white_check_mark:
 + ~~Check orientation of surface triangulations i.e. check normals. DONE!~~ :white_check_mark:
 + ~~Fixed the "bad element" message in Promesh4, issue was too many indexes for edges/faces. DONE!~~ :white_check_mark:
@@ -71,10 +71,11 @@ Python version:  3.8.10 (default, Mar 13 2023, 10:26:41)
 [GCC 9.4.0]
 Version info:    sys.version_info(major=3, minor=8, micro=10, releaselevel='final', serial=0)
 Argparse:        1.1
-networkx:   3.1
-scipy:      1.10.1
-numpy:      1.24.3
-maplotlib:  3.7.1
+networkx:        3.1
+scipy:           1.10.1
+numpy:           1.24.3
+maplotlib:       3.7.1
+JSON:            2.0.9
 ```
 This code was developed on a Windows Machine using Windows Subsystem for Linux (WSL) below are the computer specs:
 ```
