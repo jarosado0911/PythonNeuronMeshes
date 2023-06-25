@@ -12,7 +12,7 @@ Contents
 
 ### Tasks!
 Here is a lists of tasks that need to be completed and questions that need to be answered
-+ Can now generate meshes for NeuroVisor in Unity :white_check_mark:, but the mapping is not right --> TO DO! :warning: :construction:
++ Can now generate meshes for [`NeuroVisor`](https://github.com/c2m2/Neuro-VISOR) in `Unity` :white_check_mark:, but the mapping is not right --> TO DO! :warning: :construction:
 + ~~Generate surface triangulations that are saveed to `.ugx` format. DONE!~~:white_check_mark:
 + ~~Check orientation of surface triangulations i.e. check normals. DONE!~~ :white_check_mark:
 + ~~Fixed the "bad element" message in Promesh4, issue was too many indexes for edges/faces. DONE!~~ :white_check_mark:
@@ -151,7 +151,9 @@ Example usage using splines is shown below
 ```
 python3 generate_meshes.py -n 12 -c 18 -i cells/272-1-6-CD.CNG.swc -o output_mesh --spline
 ```
-This will produce an output folder called `output_mesh` and it will contain `.swc` files and `.ugx` files which are numbered accordingly. The output below will be printed below:
+This will produce an output folder called `output_mesh` and it will contain `.swc` files and `.ugx` files which are numbered accordingly.
+It will also produce a `.vrn` file to be used in [`NeuroVisor`](https://github.com/c2m2/Neuro-VISOR)
+The output below will be printed below:
 ```
 Number of refinements:     12
 Number of contour points:  18
