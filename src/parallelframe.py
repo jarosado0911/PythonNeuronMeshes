@@ -184,7 +184,7 @@ def write_ugx_subsets(cont,G,npts,filename):
     
     for i in range(1,len(G.nodes())+1):
            if G.nodes[i]['t'] not in subsets:
-                   subsets.append(G.nodes[i]['t'])
+                   subsets.append(int(G.nodes[i]['t']))
                     
     subset_points={}; subset_edges={}; subset_faces={};
     for i in subsets:
@@ -204,9 +204,9 @@ def write_ugx_subsets(cont,G,npts,filename):
             for j in range(len(klst)): # iterate through trunk vertices
                 for pos in cont[ky0][klst[j]]:
                     if j!=(len(klst)-1):
-                        t=G.nodes[klst[j+1]]['t']
+                        t=int(G.nodes[klst[j+1]]['t'])
                     else:
-                        t=G.nodes[klst[j]]['t']
+                        t=int(G.nodes[klst[j]]['t'])
                     subset_points[t].append(num_of_vertices)
                     s+=str(pos[0])+' '+str(pos[1])+' '+str(pos[2])+' '; num_of_vertices+=1;   
         f.write(s); 
@@ -226,16 +226,16 @@ def write_ugx_subsets(cont,G,npts,filename):
                     f.write(s);
                     cur=nxt; nxt+=1;
                     if j!=(len(klst)-1):
-                        t=G.nodes[klst[j+1]]['t']
+                        t=int(G.nodes[klst[j+1]]['t'])
                     else:
-                        t=G.nodes[klst[j]]['t']
+                        t=int(G.nodes[klst[j]]['t'])
                     subset_edges[t].append(num_of_edges)
                     num_of_edges+=1;
                 f.write(str(nxt-1)+' '+str(init)+' '); 
                 if j!=(len(klst)-1):
-                    t=G.nodes[klst[j+1]]['t']
+                    t=int(G.nodes[klst[j+1]]['t'])
                 else:
-                    t=G.nodes[klst[j]]['t']
+                    t=int(G.nodes[klst[j]]['t'])
                 subset_edges[t].append(num_of_edges)
                 num_of_edges+=1;
                 cur=nxt; nxt+=1;
@@ -247,7 +247,7 @@ def write_ugx_subsets(cont,G,npts,filename):
                 npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
                     if j != (len(klst)-1):
-                        t=G.nodes[klst[j+1]]['t']                        
+                        t=int(G.nodes[klst[j+1]]['t'])                        
                         subset_edges[t].append(num_of_edges)
                         subset_edges[t].append(num_of_edges+1)
                         s=str(cur)+' '+str(cur+ncirpts)+' '; num_of_edges+=1;
@@ -255,7 +255,7 @@ def write_ugx_subsets(cont,G,npts,filename):
                         f.write(s); 
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
-                    t=G.nodes[klst[j+1]]['t']
+                    t=int(G.nodes[klst[j+1]]['t'])
                     subset_edges[t].append(num_of_edges)
                     subset_edges[t].append(num_of_edges+1)
                     subset_edges[t].append(num_of_edges+2)
@@ -272,7 +272,7 @@ def write_ugx_subsets(cont,G,npts,filename):
                 npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
                     if j != (len(klst)-1):
-                        t=G.nodes[klst[j+1]]['t']
+                        t=int(G.nodes[klst[j+1]]['t'])
                         subset_faces[t].append(num_of_faces)
                         subset_faces[t].append(num_of_faces+1)
                         s= str(cur+ncirpts)+' '+str(cur+1)+' '+str(cur)+' '; num_of_faces+=1;
@@ -281,7 +281,7 @@ def write_ugx_subsets(cont,G,npts,filename):
                         f.write(s)
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
-                    t=G.nodes[klst[j+1]]['t']
+                    t=int(G.nodes[klst[j+1]]['t'])
                     subset_faces[t].append(num_of_faces)
                     subset_faces[t].append(num_of_faces+1)
                     f.write( str(nxt-1+ncirpts)+' '+str(nxt)+' '+str(nxt-1)+' '); num_of_faces+=1;
