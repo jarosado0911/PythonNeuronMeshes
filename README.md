@@ -3,44 +3,12 @@
 Contents
 ========
 
- * [Tasks!](#tasks)
  * [What?](#what)
  * [Installation](#installation)
  * [Project Contents](#projectcontents)
  * [Usage](#usage)
  * [Other](#other)
-
-### Tasks!
-Here is a lists of tasks that need to be completed and questions that need to be answered
-+ Can now generate meshes for [`NeuroVisor`](https://github.com/c2m2/Neuro-VISOR) in `Unity` :white_check_mark:, but the mapping is not right --> TO DO! :warning: :construction:
-+ ~~Generate surface triangulations that are saveed to `.ugx` format. DONE!~~:white_check_mark:
-+ ~~Check orientation of surface triangulations i.e. check normals. DONE!~~ :white_check_mark:
-+ ~~Fixed the "bad element" message in Promesh4, issue was too many indexes for edges/faces. DONE!~~ :white_check_mark:
-+ I have executed the code on the commandline through WSL --> can this be done using Powershell or Gitbash? this would be nice to write up directions :grey_question:
-+ ~~ADD MAPPING TO .UGX FILE --> TODO!:collision:~~ Have to check :warning: :construction:
-+ ~~TURN 1D .SWC TO .UGX (MAKE SURE INDEXING MATCHED .UGX SURFACE MAPPING) --> TODO!:collision:~~ Have to check :warning: :construction:
-+ IMPORTANT: RESOLVE SOMA!! --> use a ball?? see [`paper`](https://github.com/jarosado0911/PythonNeuronMeshes/blob/main/papers/MeshQualityOriented3DGeometricVascularModelingBasedOnParallelTransport.pdf) :exclamation:
-+ IMPORTANT: RESOLVE BRANCH POINTS!! :x:(see fig below)
-+ CLOSE THE END OF THE DENDRITES!!  :x: (see fig below)
-+ ~~Fix subset assignment in `.ugx` right now when you open the `.ugx` nothing appears because you have to manually select all and assign the subset DONE!~~:white_check_mark:
-+ ~~Add jupyter-notebooks for more exploration of code.DONE!~~:white_check_mark:
-<p align="center">
-  <img src="./img/PROBLEMS.png" alt="Size Limit CLI" width="600">
-</p>
-
-+ Question: I am using Pythons `scipy` module to realize the spline interpolation --> this needs to be studied further, what is the math used? a write up of how it is doing this would be nice :grey_question:
-+ Remove soma line segment that is present in original `.swc` file from [`NeuroMorpho.org`](https://neuromorpho.org/):grey_question:
-
-+ ~~Currently the `.ugx` geometries only distinguish between two subsets, the neurites and the soma, below is a figure from [`Promesh4`](https://promesh3d.com/). I would like to improve the writing to `.ugx` to be more elegant and handle a variety of subsets (for the 1d and surface meshes). DONE!~~:white_check_mark:
-<p align="center">
-  <img src="./img/soma-neurite.png" alt="Size Limit CLI" width="500">
-</p>
-
-+ Now can handle subsets
-
-<p align="center">
-  <img src="./img/mesh_subsets.png" alt="Size Limit CLI" width="500">
-</p>
+ * [Tasks!](#tasks)
  
 ### What?
 This project takes a `.swc` file downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/) and generates:
@@ -186,4 +154,36 @@ The parameter `c` affects the type of regular polygon used for the contours, in 
 - Here is a video I made using Yale Neuron, there is a notebook in the `notebooks` folder where I do this:
 <p align="center">
   <img src="./img/yaleneuron.gif" alt="Size Limit CLI" width="400">
+</p>
+
+### Tasks!
+Here is a lists of tasks that need to be completed and questions that need to be answered
++ Can now generate meshes for [`NeuroVisor`](https://github.com/c2m2/Neuro-VISOR) in `Unity` :white_check_mark:, but the mapping is not right --> TO DO! :warning: :construction:
++ ~~Generate surface triangulations that are saveed to `.ugx` format. DONE!~~:white_check_mark:
++ ~~Check orientation of surface triangulations i.e. check normals. DONE!~~ :white_check_mark:
++ ~~Fixed the "bad element" message in Promesh4, issue was too many indexes for edges/faces. DONE!~~ :white_check_mark:
++ I have executed the code on the commandline through WSL --> can this be done using Powershell or Gitbash? this would be nice to write up directions :grey_question:
++ ~~ADD MAPPING TO .UGX FILE --> TODO!:collision:~~ Have to check :warning: :construction:
++ ~~TURN 1D .SWC TO .UGX (MAKE SURE INDEXING MATCHED .UGX SURFACE MAPPING) --> TODO!:collision:~~ Have to check :warning: :construction:
++ IMPORTANT: RESOLVE SOMA!! --> use a ball?? see [`paper`](https://github.com/jarosado0911/PythonNeuronMeshes/blob/main/papers/MeshQualityOriented3DGeometricVascularModelingBasedOnParallelTransport.pdf) :exclamation:
++ IMPORTANT: RESOLVE BRANCH POINTS!! :x:(see fig below)
++ CLOSE THE END OF THE DENDRITES!!  :x: (see fig below)
++ ~~Fix subset assignment in `.ugx` right now when you open the `.ugx` nothing appears because you have to manually select all and assign the subset DONE!~~:white_check_mark:
++ ~~Add jupyter-notebooks for more exploration of code.DONE!~~:white_check_mark:
+<p align="center">
+  <img src="./img/PROBLEMS.png" alt="Size Limit CLI" width="600">
+</p>
+
++ Question: I am using Pythons `scipy` module to realize the spline interpolation --> this needs to be studied further, what is the math used? a write up of how it is doing this would be nice :grey_question:
++ Remove soma line segment that is present in original `.swc` file from [`NeuroMorpho.org`](https://neuromorpho.org/):grey_question:
+
++ ~~Currently the `.ugx` geometries only distinguish between two subsets, the neurites and the soma, below is a figure from [`Promesh4`](https://promesh3d.com/). I would like to improve the writing to `.ugx` to be more elegant and handle a variety of subsets (for the 1d and surface meshes). DONE!~~:white_check_mark:
+<p align="center">
+  <img src="./img/soma-neurite.png" alt="Size Limit CLI" width="500">
+</p>
+
++ Now can handle subsets
+
+<p align="center">
+  <img src="./img/mesh_subsets.png" alt="Size Limit CLI" width="500">
 </p>
