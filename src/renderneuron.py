@@ -10,9 +10,45 @@ import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 import matplotlib.cm as cm
 import matplotlib
-
+import json
+print('JSON:           ',json.__version__,'\n')
 print('networkx:  ', nx.__version__)
 print('scipy:     ', scipy.__version__)
+
+def write_vrn(FOLDER):
+    print('Making VRN ...')
+    flist=os.listdir(FOLDER)
+    ugx1d=[x for x in flist if '1d' in x]
+    ugxtris=[x for x in flist if '3d' in x]
+
+    jsonfilename=FOLDER+'/MetaInfo.json'
+    jsonmet={}
+    jsonmet['geom1d']=[]
+    jsonmet['ARCHIVE']="Rosado"
+    jsonmet['SPECIES']="Animal"
+    jsonmet['STRAIN']="not reported"
+
+    for i in range(len(ugx1d)):
+        g1d={}
+        g1d["name"]=ugx1d[i]
+        g1d["description"]="1d mesh coarse mesh"
+        g1d["refinement"]=str(i)
+        g1d["inflations"]=[]
+        infl={}
+        infl["name"]=ugxtris[i]
+        infl["description"]="2d surface mesh"
+        infl["inflation"]=str(1.0)
+        g1d["inflations"].append(infl)
+        jsonmet['geom1d'].append(g1d)
+
+    # Serializing json
+    json_object = json.dumps(jsonmet,indent=1)
+    # Writing to sample.json
+    with open(jsonfilename, "w") as outfile:
+        outfile.write(json_object)
+
+    c='zip -j -r '+FOLDER+'.vrn '+FOLDER
+    os.system(c)
 
 def spline_neuron(Gin,delta_x):
     G=copy.deepcopy(Gin)
