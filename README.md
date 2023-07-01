@@ -144,7 +144,7 @@ DX =  [128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25]
 ```
 If you leave off `--spline` then splines will not be used:
 ```
-python3 generate_meshes.py -n 10 -c 12 -s 1.10 -p 4 -q 4-i cells/0-2a.CNG.swc -o 0-2a.CNG.mesh --spline
+python3 generate_meshes.py -n 10 -c 12 -s 1.10 -p 4 -q 4-i cells/0-2a.CNG.swc -o 0-2a.CNG.mesh
 ```
 The difference between generating meshes using splines and without splines is shown in the figure below. The yellow mesh is pure refinement of the original `.swc` by repeated splitting of the edges of the original geometry. The red mesh uses a spline with equally spaced sampled points. The spline is an interpolation of the original points along the trunk (a trunk is a piece of neuron between two adjacent branch points).
 <p align="center">
