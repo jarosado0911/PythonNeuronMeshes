@@ -26,7 +26,7 @@ def write_ugx(cont,G,npts,filename,scs):
         if G.nodes[nd]['t']==1:
             soma_rad=G.nodes[nd]['r'];
             soma_center=G.nodes[nd]['pos'];
-    points, edgelist, facelist=write_ugx_sphere(somafilename,40,40,soma_rad*scs,soma_center)
+    points, edgelist, facelist=write_ugx_sphere(somafilename,16,16,soma_rad*scs,soma_center)
     
     with open(filename,'w') as f:
         f.write('<?xml version="1.0" encoding="utf-8"?>\n');
@@ -141,6 +141,7 @@ def write_ugx(cont,G,npts,filename,scs):
         ##########################################################################################
         f.write('<triangles>')
         s=''
+        mapping_points=[];
         cur=0; nxt=cur+1;
         for ky0 in cont.keys():
             klst=list(cont[ky0].keys())
@@ -148,6 +149,7 @@ def write_ugx(cont,G,npts,filename,scs):
                 npts=len(cont[ky0][klst[j]])
                 for i in range(npts-1):
                     if j != (len(klst)-1):
+                        ## collect face points here!!!!!!
                         if G.nodes[klst[j+1]]['t']==1:
                             soma_faces.append(num_of_faces);
                             soma_faces.append(num_of_faces+1);
@@ -156,7 +158,8 @@ def write_ugx(cont,G,npts,filename,scs):
                             neurite_faces.append(num_of_faces+1);
                         s+=str(cur+ncirpts)+' '+str(cur+1)+' '+str(cur)+' '; num_of_faces+=1;
                         s+=str(cur)+' '+str(cur+ncirpts-1)+' '+str(cur+ncirpts)+' '; num_of_faces+=1;
-                        
+                        for ii in range(14):
+                            mapping_points.append(G.nodes[klst[j]]['pos'])
                         #f.write(s)
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
@@ -168,6 +171,8 @@ def write_ugx(cont,G,npts,filename,scs):
                         neurite_faces.append(num_of_faces+1);
                     s+= str(nxt-1+ncirpts)+' '+str(nxt)+' '+str(nxt-1)+' '; num_of_faces+=1;
                     s+= str(nxt-1)+' '+str(nxt+ncirpts-2)+' '+str(nxt-1+ncirpts)+' '; num_of_faces+=1;
+                    for ii in range(14):
+                            mapping_points.append(G.nodes[klst[j]]['pos'])
                 cur=nxt; nxt+=1;
         
         for ff in facelist:
@@ -177,13 +182,22 @@ def write_ugx(cont,G,npts,filename,scs):
         s=s[:-1]
         f.write(s)
         f.write('</triangles>\n')
+        f.write('<vertex_attachment name="npNormals" type="vector3" passOn="1" global="1">')
+        f.write('</vertex_attachment>\n')
+        f.write('<vertex_attachment name="npSurfParams" type="NeuriteProjectorSurfaceParams" passOn="1" global="1">')
+        f.write('</vertex_attachment>\n')
         f.write('<vertex_attachment name="npMapping" type="Mapping" passOn="1" global="1">')
+       
         s=''
-        for ky0 in cont.keys():
-            for ky1 in cont[ky0].keys():
-                for pos in cont[ky0][ky1]:
-                    xc=G.nodes('pos')[ky1][0]; yc=G.nodes('pos')[ky1][1]; zc=G.nodes('pos')[ky1][2];
-                    s+=str(xc)+' '+str(yc)+' '+str(zc)+' '
+        for mppos in mapping_points:
+            s+=str(mppos[0])+' '+str(mppos[1])+' '+str(mppos[2])+' '
+        
+        ##########################################################################################
+        
+        for ff in facelist:
+            for i in range(7):
+                s+=str(soma_center[0])+' '+str(soma_center[1])+' '+str(soma_center[2])+' '
+        
         s=s[:-1]
         f.write(s)
         f.write('</vertex_attachment>\n')
