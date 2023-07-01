@@ -123,10 +123,10 @@ def get_trunks(G):
     # nodes which are branch points
     branch_nodes=[]; end_nodes=[];
     for i in range(1,len(T)+1):
-        if T.degree(i)>2:
-            branch_nodes.append(i)
-        elif T.degree(i)<2:
-            end_nodes.append(i)
+        if T.degree(int(i))>2:
+            branch_nodes.append(int(i))
+        elif T.degree(int(i))<2:
+            end_nodes.append(int(i))
     
     trunks={}; cnt=1;
     # iterate through branch nodes
