@@ -164,6 +164,25 @@ def refine_and_save(G,path,n=5):
     
     return GG
 
+def remove_soma_line(G):
+    # Let us make a routine for removing the soma line segment and only keep a single point
+    # find all points whose type and succesor types are soma i.e. t=1
+    soma_list=[]
+    for i in range(1,len(G.nodes)+1):
+        if G.nodes[i]['t']==1:
+            #print("Node info: ",i,' : ',G.nodes[i])
+            pred=list(G.predecessors(i))
+            #print("Node succ", pred)
+            if len(pred)!=0:
+                pre=pred[0]
+                if G.nodes[pre]['t']==1:
+                    soma_list.append(i)
+    G.remove_nodes_from(soma_list)
+    x=nx.topological_sort(G)
+    mapping = dict(zip(list(x),list(range(1,len(G.nodes)+1))))
+    G2=nx.relabel_nodes(G,mapping) 
+    return G2
+
 def save_to_swc(G,filename):
     with open(filename,'w') as f:
         for i in range(1,len(G)+1):
