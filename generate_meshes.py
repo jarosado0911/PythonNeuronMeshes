@@ -13,21 +13,32 @@ import parallelframe as pf
 import somasphere as sph
 print('\n')
 
-parser = argparse.ArgumentParser(description='''This program will generate .swc refinements,
-                                             usage: python3 generate_mesh.py -n 4 -c 6 -i cells/<cellname> -o <outfoldername> --spline''')
+parser = argparse.ArgumentParser(description='''This program will generate .swc refinements, .ugx 1d refinements, and .ugx surface meshes and zip all files into a .vrn file,
+                                             usage: python3 generate_mesh.py -n 4 -c 6 -s 1.10 -p 10 -q 16 -i cells/<cellname> -o <outfoldername> --spline''')
 parser.add_argument('-n', '--numrefine',help="Number of Refinements", required=True)
 parser.add_argument('-c', '--numcontpts',help="Number of Contour points",required=True)
+parser.add_argument('-s', '--scalesoma', help="Scale the soma", required=True)
+parser.add_argument('-p', '--spherecontours',help="Number of sphere contours",required=True)
+parser.add_argument('-q', '--spherepoints', help="Number of points per sphere contour",required=True)
 parser.add_argument('-i', '--input',help="The input .swc file", required=True)
 parser.add_argument('-o', '--output',help="The output folder name", required=True)
 parser.add_argument('--spline', action='store_true',help="Use splines")
 args = parser.parse_args()
 
-print('Number of refinements:    ',args.numrefine)
-print('Number of contour points: ',args.numcontpts)
-print('Input file:               ',args.input)
-print('Output file:              ',args.output)
+print('Number of refinements:               ',args.numrefine)
+print('Number of contour points:            ',args.numcontpts)
+print('Soma Scale:                          ',args.scalesoma)
+print('Number of Sphere contours:           ',args.spherecontours)
+print('Number of Sphere points per contour: ',args.spherepoints)
+print('Input file:                          ',args.input)
+print('Output file:                         ',args.output)
+print('Use splines:                         ',args.spline)
 
-n=args.numrefine
+n=int(args.numrefine)
+scale_soma=float(args.scalesoma);
+print(scale_soma)
+nsphere_contours=int(args.spherecontours);
+nsphere_contour_pts=int(args.spherepoints);
 
 OUTPUT_DIR=args.output
 if not os.path.exists(OUTPUT_DIR):
@@ -52,8 +63,7 @@ if (args.spline):
         cont=pf.get_pft_frames(GS,npts)
         outfilename=OUTPUT_DIR+'/cell_soma_sphere_3d_tris_x1_ref_'+str(i)+'.ugx'
         # write the .ugx to file
-        scale_soma=1.10;
-        sph.write_ugx(cont,GS,npts,outfilename,scale_soma)        
+        sph.write_ugx(cont,GS,npts,outfilename,scale_soma,nsphere_contours,nsphere_contour_pts)        
     print(' Done!')
     rn.write_vrn(OUTPUT_DIR)
     
@@ -64,8 +74,8 @@ else:
         H=rn.remove_soma_line(H)
         cont=pf.get_pft_frames(H,npts)
         outfilename=OUTPUT_DIR+'/cell_3d_tris_x1_ref_'+str(i)+'.ugx'
-        scale_soma=1.10
-        sph.write_ugx(cont,H,npts,outfilename,scale_soma)
+        
+        sph.write_ugx(cont,H,npts,outfilename,scale_soma,nsphere_contours,nsphere_contour_pts)
         outfilename=OUTPUT_DIR+'/mesh_subsets'+str(i)+'.ugx'
         pf.write_ugx_subsets(cont,H,npts,outfilename)
         pf.write_1d_ugx(H,OUTPUT_DIR+'/cell_1d_ref_'+str(i)+'.ugx')

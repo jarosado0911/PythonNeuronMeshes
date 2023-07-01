@@ -13,7 +13,7 @@ def contour_circles(PHI,R,theta_n,c):
         points.append(tuple([x,y,z]))
     return points
 
-def write_ugx(cont,G,npts,filename,scs):
+def write_ugx(cont,G,npts,filename,scs,nsphere_contours,nsphere_contour_pts):
     cur=0; nxt=cur+1;
     ncirpts=npts;
     
@@ -26,7 +26,7 @@ def write_ugx(cont,G,npts,filename,scs):
         if G.nodes[nd]['t']==1:
             soma_rad=G.nodes[nd]['r'];
             soma_center=G.nodes[nd]['pos'];
-    points, edgelist, facelist=write_ugx_sphere(somafilename,16,16,soma_rad*scs,soma_center)
+    points, edgelist, facelist=write_ugx_sphere(somafilename,nsphere_contours,nsphere_contour_pts,soma_rad*scs,soma_center)
     
     with open(filename,'w') as f:
         f.write('<?xml version="1.0" encoding="utf-8"?>\n');
@@ -182,10 +182,10 @@ def write_ugx(cont,G,npts,filename,scs):
         s=s[:-1]
         f.write(s)
         f.write('</triangles>\n')
-        f.write('<vertex_attachment name="npNormals" type="vector3" passOn="1" global="1">')
-        f.write('</vertex_attachment>\n')
-        f.write('<vertex_attachment name="npSurfParams" type="NeuriteProjectorSurfaceParams" passOn="1" global="1">')
-        f.write('</vertex_attachment>\n')
+        #f.write('<vertex_attachment name="npNormals" type="vector3" passOn="1" global="1">')
+        #f.write('</vertex_attachment>\n')
+        #f.write('<vertex_attachment name="npSurfParams" type="NeuriteProjectorSurfaceParams" passOn="1" global="1">')
+        #f.write('</vertex_attachment>\n')
         f.write('<vertex_attachment name="npMapping" type="Mapping" passOn="1" global="1">')
        
         s=''

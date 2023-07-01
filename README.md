@@ -92,15 +92,17 @@ This usage example was done on `wsl`, it 'should' work on Linux terminal as well
 
 There is a file called `generate_meshes.py` if you execute in the commandline `python3 generate_mesh.py` you will receive the following output
 ```
-usage: generate_meshes.py [-h] -n NUMREFINE -c NUMCONTPTS -i INPUT -o OUTPUT [--spline]
-generate_meshes.py: error: the following arguments are required: -n/--numrefine, -c/--numcontpts, -i/--input, -o/--output
+usage: generate_meshes.py [-h] -n NUMREFINE -c NUMCONTPTS -s SCALESOMA -p SPHERECONTOURS -q SPHEREPOINTS -i INPUT -o OUTPUT
+                          [--spline]
+generate_meshes.py: error: the following arguments are required: -n/--numrefine, -c/--numcontpts, -s/--scalesoma, -p/--spherecontours, -q/--spherepoints, -i/--input, -o/--output
 ```
 If you execute `python3 generate_meshes.py -h` you will get some more help information:
 ```
-usage: generate_meshes.py [-h] -n NUMREFINE -c NUMCONTPTS -i INPUT -o OUTPUT [--spline]
+usage: generate_meshes.py [-h] -n NUMREFINE -c NUMCONTPTS -s SCALESOMA -p SPHERECONTOURS -q SPHEREPOINTS -i INPUT -o OUTPUT
+                          [--spline]
 
-This program will generate .swc refinements, usage: python3 generate_mesh.py -n 4 -c 6 -i cells/<cellname> -o
-<outfoldername> --spline
+This program will generate .swc refinements, .ugx 1d refinements, and .ugx surface meshes and zip all files into a .vrn file,
+usage: python3 generate_mesh.py -n 4 -c 6 -s 1.10 -p 10 -q 16 -i cells/<cellname> -o <outfoldername> --spline
 
 optional arguments:
   -h, --help            show this help message and exit
@@ -108,6 +110,12 @@ optional arguments:
                         Number of Refinements
   -c NUMCONTPTS, --numcontpts NUMCONTPTS
                         Number of Contour points
+  -s SCALESOMA, --scalesoma SCALESOMA
+                        Scale the soma
+  -p SPHERECONTOURS, --spherecontours SPHERECONTOURS
+                        Number of sphere contours
+  -q SPHEREPOINTS, --spherepoints SPHEREPOINTS
+                        Number of points per sphere contour
   -i INPUT, --input INPUT
                         The input .swc file
   -o OUTPUT, --output OUTPUT
@@ -117,22 +125,26 @@ optional arguments:
 The folder `cells` contains cells which were downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/)
 Example usage using splines is shown below
 ```
-python3 generate_meshes.py -n 12 -c 18 -i cells/272-1-6-CD.CNG.swc -o output_mesh --spline
+python3 generate_meshes.py -n 10 -c 12 -s 1.10 -p 4 -q 4-i cells/0-2a.CNG.swc -o 0-2a.CNG.mesh --spline
 ```
 This will produce an output folder called `output_mesh` and it will contain `.swc` files and `.ugx` files which are numbered accordingly.
 It will also produce a `.vrn` file to be used in [`NeuroVisor`](https://github.com/c2m2/Neuro-VISOR)
 The output below will be printed below:
 ```
-Number of refinements:     12
-Number of contour points:  18
-Input file:                cells/272-1-6-CD.CNG.swc
-Output file:               output_mesh
-DX =  [128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25, 0.125, 0.0625]
-refining round... 128  64  32  16  8  4  2  1  0.5  0.25  0.125  0.0625   Done!
+Number of refinements:                10
+Number of contour points:             12
+Soma Scale:                           1.10
+Number of Sphere contours:            4
+Number of Sphere points per contour:  4
+Input file:                           cells/0-2a.CNG.swc
+Output file:                          0-2a.CNG.mesh
+Use splines:                          True
+1.1
+DX =  [128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25]
 ```
 If you leave off `--spline` then splines will not be used:
 ```
-python3 generate_meshes.py -n 12 -c 18 -i cells/272-1-6-CD.CNG.swc -o output_mesh_nospline
+python3 generate_meshes.py -n 10 -c 12 -s 1.10 -p 4 -q 4-i cells/0-2a.CNG.swc -o 0-2a.CNG.mesh --spline
 ```
 The difference between generating meshes using splines and without splines is shown in the figure below. The yellow mesh is pure refinement of the original `.swc` by repeated splitting of the edges of the original geometry. The red mesh uses a spline with equally spaced sampled points. The spline is an interpolation of the original points along the trunk (a trunk is a piece of neuron between two adjacent branch points).
 <p align="center">
