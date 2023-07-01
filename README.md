@@ -177,7 +177,7 @@ Here is a lists of tasks that need to be completed and questions that need to be
 + I have executed the code on the commandline through WSL --> can this be done using Powershell or Gitbash? this would be nice to write up directions :grey_question:
 + ~~ADD MAPPING TO .UGX FILE --> TODO!:collision:~~ Have to check :warning: :construction:
 + ~~TURN 1D .SWC TO .UGX (MAKE SURE INDEXING MATCHED .UGX SURFACE MAPPING) --> TODO!:collision:~~ Have to check :warning: :construction:
-+ IMPORTANT: RESOLVE SOMA!! --> use a ball?? see [`paper`](https://github.com/jarosado0911/PythonNeuronMeshes/blob/main/papers/MeshQualityOriented3DGeometricVascularModelingBasedOnParallelTransport.pdf) :exclamation:
++ ~~IMPORTANT: RESOLVE SOMA!! -->~~ I am using a soma sphere?? see [`paper`](https://github.com/jarosado0911/PythonNeuronMeshes/blob/main/papers/MeshQualityOriented3DGeometricVascularModelingBasedOnParallelTransport.pdf) :white_check_mark:
 + IMPORTANT: RESOLVE BRANCH POINTS!! :x:(see fig below)
 + CLOSE THE END OF THE DENDRITES!!  :x: (see fig below)
 + ~~Fix subset assignment in `.ugx` right now when you open the `.ugx` nothing appears because you have to manually select all and assign the subset DONE!~~:white_check_mark:
