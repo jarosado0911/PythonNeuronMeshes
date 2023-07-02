@@ -184,6 +184,7 @@ Here is a lists of tasks that need to be completed and questions that need to be
 + ~~Add jupyter-notebooks for more exploration of code.DONE!~~:white_check_mark:
 <p align="center">
   <img src="./img/PROBLEMS.png" alt="Size Limit CLI" width="600">
+    <em> </em>
     <em>I have placed soma sphere now :white_check_mark:, but the branch points need to be fixed and end of dendrites closed </em>
 </p>
 
