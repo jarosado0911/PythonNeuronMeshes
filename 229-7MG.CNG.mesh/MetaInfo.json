@@ -1,0 +1,127 @@
+{
+ "geom1d": [
+  {
+   "name": "cell_1d_ref_0.ugx",
+   "description": "1d mesh coarse mesh",
+   "refinement": "0",
+   "inflations": [
+    {
+     "name": "cell_soma_sphere_3d_tris_x1_ref_0.ugx",
+     "description": "2d surface mesh",
+     "inflation": "1.0"
+    }
+   ]
+  },
+  {
+   "name": "cell_1d_ref_1.ugx",
+   "description": "1d mesh coarse mesh",
+   "refinement": "1",
+   "inflations": [
+    {
+     "name": "cell_soma_sphere_3d_tris_x1_ref_1.ugx",
+     "description": "2d surface mesh",
+     "inflation": "1.0"
+    }
+   ]
+  },
+  {
+   "name": "cell_1d_ref_2.ugx",
+   "description": "1d mesh coarse mesh",
+   "refinement": "2",
+   "inflations": [
+    {
+     "name": "cell_soma_sphere_3d_tris_x1_ref_2.ugx",
+     "description": "2d surface mesh",
+     "inflation": "1.0"
+    }
+   ]
+  },
+  {
+   "name": "cell_1d_ref_3.ugx",
+   "description": "1d mesh coarse mesh",
+   "refinement": "3",
+   "inflations": [
+    {
+     "name": "cell_soma_sphere_3d_tris_x1_ref_3.ugx",
+     "description": "2d surface mesh",
+     "inflation": "1.0"
+    }
+   ]
+  },
+  {
+   "name": "cell_1d_ref_4.ugx",
+   "description": "1d mesh coarse mesh",
+   "refinement": "4",
+   "inflations": [
+    {
+     "name": "cell_soma_sphere_3d_tris_x1_ref_4.ugx",
+     "description": "2d surface mesh",
+     "inflation": "1.0"
+    }
+   ]
+  },
+  {
+   "name": "cell_1d_ref_5.ugx",
+   "description": "1d mesh coarse mesh",
+   "refinement": "5",
+   "inflations": [
+    {
+     "name": "cell_soma_sphere_3d_tris_x1_ref_5.ugx",
+     "description": "2d surface mesh",
+     "inflation": "1.0"
+    }
+   ]
+  },
+  {
+   "name": "cell_1d_ref_6.ugx",
+   "description": "1d mesh coarse mesh",
+   "refinement": "6",
+   "inflations": [
+    {
+     "name": "cell_soma_sphere_3d_tris_x1_ref_6.ugx",
+     "description": "2d surface mesh",
+     "inflation": "1.0"
+    }
+   ]
+  },
+  {
+   "name": "cell_1d_ref_7.ugx",
+   "description": "1d mesh coarse mesh",
+   "refinement": "7",
+   "inflations": [
+    {
+     "name": "cell_soma_sphere_3d_tris_x1_ref_7.ugx",
+     "description": "2d surface mesh",
+     "inflation": "1.0"
+    }
+   ]
+  },
+  {
+   "name": "cell_1d_ref_8.ugx",
+   "description": "1d mesh coarse mesh",
+   "refinement": "8",
+   "inflations": [
+    {
+     "name": "cell_soma_sphere_3d_tris_x1_ref_8.ugx",
+     "description": "2d surface mesh",
+     "inflation": "1.0"
+    }
+   ]
+  },
+  {
+   "name": "cell_1d_ref_9.ugx",
+   "description": "1d mesh coarse mesh",
+   "refinement": "9",
+   "inflations": [
+    {
+     "name": "cell_soma_sphere_3d_tris_x1_ref_9.ugx",
+     "description": "2d surface mesh",
+     "inflation": "1.0"
+    }
+   ]
+  }
+ ],
+ "ARCHIVE": "Rosado",
+ "SPECIES": "Animal",
+ "STRAIN": "not reported"
+}

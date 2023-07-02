@@ -184,10 +184,11 @@ Here is a lists of tasks that need to be completed and questions that need to be
 + ~~Add jupyter-notebooks for more exploration of code.DONE!~~:white_check_mark:
 <p align="center">
   <img src="./img/PROBLEMS.png" alt="Size Limit CLI" width="600">
-    <em> </em>
-    <em>I have placed soma sphere now :white_check_mark:, but the branch points need to be fixed and end of dendrites closed </em>
 </p>
-
+I have placed soma sphere now :white_check_mark:, but the branch points need to be fixed and end of dendrites closed.
+<p align="center">
+<img src="./img/somasphere.png" alt="Size Limit CLI" width="600">
+</p>
 + Question: I am using Pythons `scipy` module to realize the spline interpolation --> this needs to be studied further, what is the math used? a write up of how it is doing this would be nice :grey_question:
 + Remove soma line segment that is present in original `.swc` file from [`NeuroMorpho.org`](https://neuromorpho.org/):grey_question:
 
