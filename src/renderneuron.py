@@ -87,9 +87,15 @@ def spline_neuron(Gin,delta_x):
         tck, u = interpolate.splprep([x,y,z],k=spl_deg,s=0)
         x_fine, y_fine, z_fine = interpolate.splev(u_fine, tck)
 
-        # do interpolation of radii    
-        tck,u = interpolate.splprep([d,new_r],k=1,s=0)
-        d_fine,r_fine=interpolate.splev(u_fine,tck)
+        # do interpolation of radii   
+        if min(new_r)==max(new_r):
+            r_fine=[new_r[0] for xx in x_fine]
+        else:
+            try:
+                tck,u = interpolate.splprep([d,new_r],k=1,s=0)
+            except:
+                tck,u = interpolate.splprep([[max(d),min(d)],[max(new_r),min(new_r)]],k=1,s=0)
+            d_fine,r_fine=interpolate.splev(u_fine,tck)
     
         # add none connected nodes to end of graph
         start_node=lst[0]
