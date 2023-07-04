@@ -67,6 +67,10 @@ if (args.spline):
     print(' Done!')
     rn.write_vrn(OUTPUT_DIR)
     
+    G0=rn.remove_soma_line(G)
+    trunks,T=rn.get_trunks(G0)
+    rn.save_to_swc(T,OUTPUT_DIR+'/trunks.swc')
+    
 else:
     GG=rn.refine_and_save(G,OUTPUT_DIR+'/',int(n))
     for i in range(len(GG)):

@@ -84,7 +84,7 @@ def spline_neuron(Gin,delta_x):
         u_fine = np.linspace(0,1,num_true_pts)
 
         # do interpolation of points
-        tck, u = interpolate.splprep([x,y,z],k=spl_deg,s=0)
+        tck, u = interpolate.splprep([x,y,z],k=spl_deg,s=1.0)
         x_fine, y_fine, z_fine = interpolate.splev(u_fine, tck)
 
         # do interpolation of radii   
@@ -92,7 +92,7 @@ def spline_neuron(Gin,delta_x):
             r_fine=[new_r[0] for xx in x_fine]
         else:
             try:
-                tck,u = interpolate.splprep([d,new_r],k=1,s=0)
+                tck,u = interpolate.splprep([d,new_r],k=1,s=1.0)
             except:
                 tck,u = interpolate.splprep([[max(d),min(d)],[max(new_r),min(new_r)]],k=1,s=0)
             d_fine,r_fine=interpolate.splev(u_fine,tck)
