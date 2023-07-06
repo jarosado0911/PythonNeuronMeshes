@@ -158,9 +158,9 @@ def write_ugx(cont,G,npts,filename,scs,nsphere_contours,nsphere_contour_pts):
                             neurite_faces.append(num_of_faces+1);
                         s+=str(cur+ncirpts)+' '+str(cur+1)+' '+str(cur)+' '; num_of_faces+=1;
                         s+=str(cur)+' '+str(cur+ncirpts-1)+' '+str(cur+ncirpts)+' '; num_of_faces+=1;
-                        for ii in range(14):
+                        if G.nodes[klst[j]]['t']!=1:
                             mapping_points.append(G.nodes[klst[j]]['pos'])
-                        #f.write(s)
+                            mapping_points.append(G.nodes[klst[j+1]]['pos'])
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
                     if G.nodes[klst[j+1]]['t']==1:
@@ -171,8 +171,9 @@ def write_ugx(cont,G,npts,filename,scs,nsphere_contours,nsphere_contour_pts):
                         neurite_faces.append(num_of_faces+1);
                     s+= str(nxt-1+ncirpts)+' '+str(nxt)+' '+str(nxt-1)+' '; num_of_faces+=1;
                     s+= str(nxt-1)+' '+str(nxt+ncirpts-2)+' '+str(nxt-1+ncirpts)+' '; num_of_faces+=1;
-                    for ii in range(14):
-                            mapping_points.append(G.nodes[klst[j]]['pos'])
+                    if G.nodes[klst[j]]['t']!=1:
+                        mapping_points.append(G.nodes[klst[j]]['pos'])
+                        mapping_points.append(G.nodes[klst[j+1]]['pos'])
                 cur=nxt; nxt+=1;
         
         for ff in facelist:
@@ -187,17 +188,20 @@ def write_ugx(cont,G,npts,filename,scs,nsphere_contours,nsphere_contour_pts):
         #f.write('<vertex_attachment name="npSurfParams" type="NeuriteProjectorSurfaceParams" passOn="1" global="1">')
         #f.write('</vertex_attachment>\n')
         f.write('<vertex_attachment name="npMapping" type="Mapping" passOn="1" global="1">')
-       
         s=''
+        cnt=0
         for mppos in mapping_points:
             s+=str(mppos[0])+' '+str(mppos[1])+' '+str(mppos[2])+' '
+            if cnt != 0 and cnt % 2 ==1:
+                s+=str(0.004)+' '
+            cnt+=1
         
-        ##########################################################################################
-        
+        # Soma face mapping        
         for ff in facelist:
-            for i in range(7):
-                s+=str(soma_center[0])+' '+str(soma_center[1])+' '+str(soma_center[2])+' '
-        
+            s+=str(soma_center[0])+' '+str(soma_center[1])+' '+str(soma_center[2])+' '+str(0.0)+' '
+            s+=str(0.004)+' '
+            s+=str(soma_center[0])+' '+str(soma_center[1])+' '+str(soma_center[2])+' '+str(0.0)+' '
+            s+=str(0.004)+' '
         s=s[:-1]
         f.write(s)
         f.write('</vertex_attachment>\n')
