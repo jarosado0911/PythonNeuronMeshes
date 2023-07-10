@@ -121,7 +121,7 @@ optional arguments:
 The folder `cells` contains cells which were downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/)
 Example usage shown below
 ```
-python3 NEW_generate_meshes.py -n 10 -c 10 -d 64.0 -p 16-q 16 -i cells/Purkinje-slice-ageP43-6.CNG.swc
+python3 NEW_generate_meshes.py -n 10 -c 10 -d 64.0 -p 16 -q 16 -i cells/Purkinje-slice-ageP43-6.CNG.swc
 ```
 This will produce an output folder called `<cell_name>.mesh` and it will contain `.swc` files and `.ugx` files which are numbered accordingly.
 It will also produce a `.vrn` file to be used in [`NeuroVisor`](https://github.com/c2m2/Neuro-VISOR)
