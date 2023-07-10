@@ -68,27 +68,22 @@ def get_circle(p):
 def get_pft_frames(G,npts):
     trunks,_=rn.get_trunks(G)
     t=np.linspace(0,360,npts+1); t=t[:-1]
-    t=t*np.pi/180
+    t=t*np.pi/180;
     contour={}
-    #centerpt={}
     for ky,tk in zip(trunks.keys(),trunks.values()):
         points,U,V,T=get_UVT(G,tk)
         circle_pts={}
-        #cnterpt={}
         for i in range(len(points)):
             rr=G.nodes[tk[i]]['r']
             posxyz=[]
-            
             for rad in t:
                 xx=points[i][0]+rr*(U[i][0]*np.cos(rad) + V[i][0]*np.sin(rad))
                 yy=points[i][1]+rr*(U[i][1]*np.cos(rad) + V[i][1]*np.sin(rad))
                 zz=points[i][2]+rr*(U[i][2]*np.cos(rad) + V[i][2]*np.sin(rad))
                 posxyz.append(tuple([xx,yy,zz]))
             circle_pts[tk[i]]=posxyz
-            #cnterpt[tk[i]]=tuple([points[i][0],points[i][1],points[i][2]])
         contour[ky]=circle_pts 
-        #centerpt[ky]=cnterpt
-    return contour#,centerpt
+    return contour
 
 def write_1d_ugx(G,filename):
     with open(filename,'w') as f:

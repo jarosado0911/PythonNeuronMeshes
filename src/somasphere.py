@@ -159,8 +159,11 @@ def write_ugx(cont,G,npts,filename,scs,nsphere_contours,nsphere_contour_pts):
                         s+=str(cur+ncirpts)+' '+str(cur+1)+' '+str(cur)+' '; num_of_faces+=1;
                         s+=str(cur)+' '+str(cur+ncirpts-1)+' '+str(cur+ncirpts)+' '; num_of_faces+=1;
                         if G.nodes[klst[j]]['t']!=1:
-                            mapping_points.append(G.nodes[klst[j]]['pos'])
-                            mapping_points.append(G.nodes[klst[j+1]]['pos'])
+                            for i in range(1):
+                                pre=list(G.pred[klst[j]].keys()); pre=pre[0]
+                                mapping_points.append(G.nodes[pre]['pos'])
+                                mapping_points.append(G.nodes[klst[j]]['pos'])
+                                #mapping_points.append(G.nodes[klst[j+1]]['pos'])
                     cur=nxt; nxt+=1;
                 if j != (len(klst)-1):
                     if G.nodes[klst[j+1]]['t']==1:
@@ -171,9 +174,12 @@ def write_ugx(cont,G,npts,filename,scs,nsphere_contours,nsphere_contour_pts):
                         neurite_faces.append(num_of_faces+1);
                     s+= str(nxt-1+ncirpts)+' '+str(nxt)+' '+str(nxt-1)+' '; num_of_faces+=1;
                     s+= str(nxt-1)+' '+str(nxt+ncirpts-2)+' '+str(nxt-1+ncirpts)+' '; num_of_faces+=1;
-                    if G.nodes[klst[j]]['t']!=1:
+                if G.nodes[klst[j]]['t']!=1:
+                    pre=list(G.pred[klst[j]].keys()); pre=pre[0]
+                    for i in range(1):
+                        mapping_points.append(G.nodes[pre]['pos'])
                         mapping_points.append(G.nodes[klst[j]]['pos'])
-                        mapping_points.append(G.nodes[klst[j+1]]['pos'])
+                        #mapping_points.append(G.nodes[klst[j+1]]['pos'])
                 cur=nxt; nxt+=1;
         
         for ff in facelist:
@@ -193,15 +199,13 @@ def write_ugx(cont,G,npts,filename,scs,nsphere_contours,nsphere_contour_pts):
         for mppos in mapping_points:
             s+=str(mppos[0])+' '+str(mppos[1])+' '+str(mppos[2])+' '
             if cnt != 0 and cnt % 2 ==1:
-                s+=str(0.004)+' '
+                s+=str(0.0)+' '
             cnt+=1
         
         # Soma face mapping        
-        for ff in facelist:
+        for i in range(int(len(facelist)/2)):
             s+=str(soma_center[0])+' '+str(soma_center[1])+' '+str(soma_center[2])+' '+str(0.0)+' '
-            s+=str(0.004)+' '
-            s+=str(soma_center[0])+' '+str(soma_center[1])+' '+str(soma_center[2])+' '+str(0.0)+' '
-            s+=str(0.004)+' '
+            #s+=str(0.001)+' '
         s=s[:-1]
         f.write(s)
         f.write('</vertex_attachment>\n')
