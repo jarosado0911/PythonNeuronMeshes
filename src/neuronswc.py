@@ -12,10 +12,9 @@ import matplotlib.cm as cm
 import matplotlib
 import json
 import random
-print('JSON:           ',json.__version__,'\n')
-print('networkx:  ', nx.__version__)
-print('scipy:     ', scipy.__version__)
-
+print('JSON:           ',json.__version__)
+print('networkx:       ', nx.__version__)
+print('scipy:          ', scipy.__version__)
 def split_edges(G):
     """
     This function takes in a graph object (G) and refines the geometry once by splitting all edges
