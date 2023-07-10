@@ -85,11 +85,48 @@ When you git clone or download this project you should have the following items:
 + Folder `cells` contains some [`NeuroMorpho.org`](https://neuromorpho.org/) cells in `.swc` format
 + Folder `papers` contains some papers in `.pdf` format that are good references for proceeding in the project
 + Folder `src` is the course code, it only contains two `.py` files which are the main codes for the mesh and geometry generation
-+ File `generate_meshes.py` is the main driver code which is described in the Usage section.
++ (OLD) File `generate_meshes.py` is the main driver code which is described in the Usage section.
++ File `NEW_generate_meshes.py` is the main driver code which is described in the Usage section.
 
 ### Usage
 This usage example was done on `wsl`, it 'should' work on Linux terminal as well (pending you have all the correct version of python and modules). I will try to include directions for PowerShell and GitBash.
 
+There is a file called `NEW_generate_meshes.py` if you execute in the commandline `python3 NEW_generate_mesh.py` you will receive the following output
+```
+usage: NEW_generate_meshes.py [-h] [-n NUMREFINE] [-d STARTDX] [-c NUMCONTPTS] [-p SPHERECONTOURS] [-q SPHEREPOINTS] -i INPUT
+NEW_generate_meshes.py: error: the following arguments are required: -i/--input
+```
+If you execute `python3 NEW_generate_meshes.py -h` you will get some more help information:
+```
+usage: NEW_generate_meshes.py [-h] [-n NUMREFINE] [-d STARTDX] [-c NUMCONTPTS] [-p SPHERECONTOURS] [-q SPHEREPOINTS] -i INPUT
+
+This program will generate .swc refinements, .ugx 1d refinements, and .ugx surface meshes and zip all files into a .vrn file,
+usage: python3 NEW_generate_meshes.py -n 6 -c 6 -d 32.0 -p 10 -q 16 -i cells/<cellname>
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n NUMREFINE, --numrefine NUMREFINE
+                        Number of Refinements
+  -d STARTDX, --startdx STARTDX
+                        Largest DeltaX
+  -c NUMCONTPTS, --numcontpts NUMCONTPTS
+                        Number of Contour points
+  -p SPHERECONTOURS, --spherecontours SPHERECONTOURS
+                        Number of sphere contours
+  -q SPHEREPOINTS, --spherepoints SPHEREPOINTS
+                        Number of points per sphere contour
+  -i INPUT, --input INPUT
+                        The input .swc file
+```
+The folder `cells` contains cells which were downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/)
+Example usage shown below
+```
+python3 NEW_generate_meshes.py -n 10 -c 10 -d 64.0 -p 16-q 16 -i cells/Purkinje-slice-ageP43-6.CNG.swc
+```
+This will produce an output folder called `<cell_name>.mesh` and it will contain `.swc` files and `.ugx` files which are numbered accordingly.
+It will also produce a `.vrn` file to be used in [`NeuroVisor`](https://github.com/c2m2/Neuro-VISOR)
+
+#### OLD USAGE
 There is a file called `generate_meshes.py` if you execute in the commandline `python3 generate_mesh.py` you will receive the following output
 ```
 usage: generate_meshes.py [-h] -n NUMREFINE -c NUMCONTPTS -s SCALESOMA -p SPHERECONTOURS -q SPHEREPOINTS -i INPUT -o OUTPUT
