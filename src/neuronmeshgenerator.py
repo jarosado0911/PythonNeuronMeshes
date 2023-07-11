@@ -197,6 +197,9 @@ def get_mesh_structure(G,ncirclepoints=6):
     face_number=0; face_list=[]
     template=np.array(range(ncirclepoints))
     temp1=template; temp2=temp1+ncirclepoints; temp3=np.roll(temp2,1); temp4=np.roll(temp1,1);
+    
+    face_mapping=[];
+    
     for trunk in contour:
         keylist=list(contour[trunk].keys())
         for i in range(0,len(keylist)):  #should I skip first contour?
@@ -208,9 +211,10 @@ def get_mesh_structure(G,ncirclepoints=6):
                     t=G.nodes[keylist[i]]['t']
             for v1,v2,v3,v4 in zip(temp1,temp2,temp3,temp4):
                 if i != len(keylist)-1:
-                    face_list.append(tuple([v3,v2,v1]))
+                    cur=G.nodes[keylist[i]]['pos']; nxt=G.nodes[keylist[i+1]]['pos']; LL=random.uniform(0, 1)/10;
+                    face_list.append(tuple([v3,v2,v1])); face_mapping.append(tuple([cur,nxt,LL]))
                     face_setdict[t].append(face_number); face_number+=1
-                    face_list.append(tuple([v4,v3,v1]))
+                    face_list.append(tuple([v4,v3,v1])); face_mapping.append(tuple([cur,nxt,LL]))
                     face_setdict[t].append(face_number); face_number+=1
             temp1+=ncirclepoints; temp2=temp1+ncirclepoints; temp3=np.roll(temp2,1); temp4=np.roll(temp1,1);
     
@@ -219,6 +223,7 @@ def get_mesh_structure(G,ncirclepoints=6):
     surface['coords']=coords;   surface['vertexsets']=vertex_setdict
     surface['edges']=edge_list; surface['edgesets']=edge_setdict;
     surface['faces']=face_list; surface['facesets']=face_setdict;
+    surface['fmapping']=face_mapping;
     return surface
 
 def write_mesh_ugx_soma_neurite(G,ncirclepoints,filename):
@@ -327,8 +332,17 @@ def write_mesh_with_soma_sphere_ugx(G,ncirclepoints,n_spcontours,n_spcircle_poin
             s+=str(fc[0]+m)+' '+str(fc[1]+m)+' '+str(fc[2]+m)+' '
         s=s[:-1]; f.write(s)
         f.write('</triangles>\n')
+        f.write('<vertex_attachment name="npMapping" type="Mapping" passOn="1" global="1">')
+        s=''
+        for mp in surface['fmapping']:
+            pos1=mp[0]; pos2=mp[1]; LL=mp[2];
+            s+=str(pos1[0])+' '+str(pos1[1])+' '+str(pos1[2])+' '+str(pos2[0])+' '+str(pos2[1])+' '+str(pos2[2])+' '+str(LL)+' ';
+        for mp in spheresurface['fmapping']:
+            pos1=mp[0]; pos2=mp[1]; LL=mp[2];
+            s+=str(pos1[0])+' '+str(pos1[1])+' '+str(pos1[2])+' '+str(pos2[0])+' '+str(pos2[1])+' '+str(pos2[2])+' '+str(LL)+' ';
+        s=s[:-1]; f.write(s)
+        f.write('</vertex_attachment>\n')
         f.write('<subset_handler name="defSH">');
-        
         for ss in surface['subsets']:
             name='subset'; clr=tuple([random.uniform(0,1),random.uniform(0,1),random.uniform(0,1)])
             if ss==1: name='soma'
@@ -435,18 +449,25 @@ def sphere_mesh_structure(n_contours,n_circle_points,radius,soma_center):
     face_number=0; face_list=[]; face_setdict=[]; facenumber=0;
     template=np.array(range(n_circle_points))+1
     temp1=template; temp2=temp1+n_circle_points; temp3=np.roll(temp2,1); temp4=np.roll(temp1,1);
+    face_mapping=[]; 
+    LL=0.0; somapos=tuple([soma_center[0],soma_center[1],soma_center[2]]);
     for i in range(0,len(contour_keys)):
         if i==0:
             for v1,v4 in zip(temp1,temp4):
                 face_list.append(tuple([v4,v1,0])); face_setdict.append(facenumber); facenumber+=1;
+                face_mapping.append(tuple([somapos,somapos,LL]))
         elif i==len(contour_keys)-1:
             for v1,v4 in zip(temp1-n_circle_points,temp4-n_circle_points):
                 face_list.append(tuple([num_vertices-1,v1,v4])); face_setdict.append(facenumber); facenumber+=1;
+                face_mapping.append(tuple([somapos,somapos,LL]))
         else:
             for v1,v2,v3,v4 in zip(temp1,temp2,temp3,temp4):
                 if i != len(contour_keys)-2:
                     face_list.append(tuple([v3,v2,v1]));face_setdict.append(facenumber); facenumber+=1;
                     face_list.append(tuple([v3,v1,v4]));face_setdict.append(facenumber); facenumber+=1;
+                    face_mapping.append(tuple([somapos,somapos,LL]))
+                    #face_mapping.append(tuple([somapos,somapos,LL]))
+                    
             temp1+=n_circle_points; temp2=temp1+n_circle_points; temp3=np.roll(temp2,1); temp4=np.roll(temp1,1);
         
     surface={}
@@ -454,6 +475,7 @@ def sphere_mesh_structure(n_contours,n_circle_points,radius,soma_center):
     surface['edges']=edge_list; surface['edgesets']=edge_setdict;
     surface['faces']=face_list; surface['facesets']=face_setdict;
     surface['contours']=cont
+    surface['fmapping']=face_mapping;
     return surface
 
 def write_soma_ugx(filename,n_contours,n_circle_points,radius,soma_center):
