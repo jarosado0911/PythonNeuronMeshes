@@ -326,6 +326,71 @@ def get_cell_structure(G):
     cell['edgesets']=edge_setdict; cell['edges']=edge_list; cell['attachments']=attachment_dict
     return cell
 
+def get_cell_structure_by_trunks(G):
+    #get the trunks of the geometry
+    trunks,T=get_trunks(G)
+    
+    # Let us get ugx structure, first get the subset types
+    subsets=set()
+    for n in list(G.nodes()):
+        subsets.add(G.nodes[n]['t'])
+    
+    # now collect nodes in particular subset
+    node_setdict={}; edge_setdict={};
+    attachment_dict={}
+    for i in subsets:
+        node_setdict[i]=[]; edge_setdict[i]=[]
+    
+    trunks_keys=list(trunks.keys())
+    vertex_number=1;
+    ugx_to_graph={};
+    graph_to_ugx={};
+    ugx1dcoords ={};
+    
+    for i in range(len(trunks_keys)): # should I skip the last??
+        trunk_nodes=trunks[trunks_keys[i]];
+        for j in range(len(trunk_nodes)):
+            n=trunk_nodes[j]
+            t=G.nodes[n]['t']
+            if n in graph_to_ugx.keys():
+                continue
+            node_setdict[t].append(vertex_number) 
+            ugx_to_graph[vertex_number]=n; graph_to_ugx[n]=vertex_number; vertex_number+=1;
+            ugx1dcoords[vertex_number]=G.nodes[n]['pos']
+            rad=G.nodes[n]['r']; pos=G.nodes[n]['pos']
+            Dict={'r': rad,'pos': pos}
+            attachment_dict[graph_to_ugx[n]]=Dict
+            
+    for i in subsets:
+        node_setdict[i].sort()
+        
+    # now make a list of edges, edge set dictionary
+    edge_list=[]
+    for i in range(len(trunks_keys)): 
+        trunk_nodes=trunks[trunks_keys[i]];
+        for j in range(1,len(trunk_nodes)): #skip the first node
+            n=trunk_nodes[j]
+            pred_list=list(G.predecessors(n))
+            if len(pred_list)!=0:
+                from_to=tuple([graph_to_ugx[pred_list[0]], graph_to_ugx[n]]) 
+                edge_list.append(from_to)
+    edge_list.sort()
+    
+    edge_number=0 #ugx edge numbers start at 0 
+    for e in edge_list:
+        from_to=e
+        t=G.nodes[ugx_to_graph[from_to[1]]]['t']  
+        Dict={'e':edge_number,'fromto':from_to}; edge_number+=1
+        edge_setdict[t].append(Dict)
+        
+    # now assemble dictionary containing the subset structures
+    cell={}; cell['subsets']=subsets; cell['nodesets']=node_setdict
+    cell['edgesets']=edge_setdict; cell['edges']=edge_list; cell['attachments']=attachment_dict
+    cell['graphugx']=graph_to_ugx;
+    cell['ugxgraph']=ugx_to_graph;
+    cell['ugx1dcoords']=ugx1dcoords;
+    return cell
+
 def convert_to_soma_neurite(G):
     GSN=copy.deepcopy(G);
     for n in GSN.nodes():
@@ -340,13 +405,14 @@ def write_1d_ugx_soma_neurite(G,filename):
     GSN=convert_to_soma_neurite(G)
     write_1d_ugx(GSN,filename)
     print('Saved to ',filename)
-
+    
 def write_1d_ugx(G,filename):
     """
     This function writes the neuron graph to .ugx preserving all subsets by usings the
     get_cell_structure function call
     """
-    cell = get_cell_structure(G)
+    #cell = get_cell_structure_by_trunks(G)
+    cell=get_cell_structure(G)
     with open(filename,'w') as f:
         f.write('<?xml version="1.0" encoding="utf-8"?>\n');
         f.write('<grid name="defGrid">\n');

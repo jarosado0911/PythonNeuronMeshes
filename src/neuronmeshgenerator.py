@@ -155,6 +155,11 @@ def get_mesh_structure(G,ncirclepoints=6):
         vertex_setdict[i]=[]; edge_setdict[i]=[]; face_setdict[i]=[];
         
     trunks,_=ns.get_trunks(G)  # get the trunks
+    
+    #specialmapping = ns.get_cell_structure_by_trunks(G) #??
+    #graph_to_ugx=specialmapping['graphugx']
+    #ugx1dcoords=specialmapping['ugx1dcoords']
+    
     contour=get_pft_frames(G,ncirclepoints)  # get the cont points
     
     coords=[]; vertex_number=1;
@@ -211,9 +216,25 @@ def get_mesh_structure(G,ncirclepoints=6):
                     t=G.nodes[keylist[i]]['t']
             for v1,v2,v3,v4 in zip(temp1,temp2,temp3,temp4):
                 if i != len(keylist)-1:
-                    cur=G.nodes[keylist[i]]['pos']; nxt=G.nodes[keylist[i+1]]['pos']; LL=random.uniform(0, 1)/10;
+                    nx=list(G.predecessors(keylist[i])); 
+                    if len(nx) != 0:
+                        nx=nx[0]
+                    else:
+                        nx=keylist[i+1]
+                        
+                    nxt=G.nodes[keylist[i]]['pos']; cur=G.nodes[nx]['pos'];
+                    #nxt=ugx1dcoords[graph_to_ugx[keylist[i]+1]]; 
+                    #cur=ugx1dcoords[graph_to_ugx[nx+1]];
+                    
+                    #first face
+                    f1=coords[v1]; f2=coords[v2]; f3=coords[v3];
+                    LL=compute_lambda(cur,nxt,f1,f2,f3);
                     face_list.append(tuple([v3,v2,v1])); face_mapping.append(tuple([cur,nxt,LL]))
                     face_setdict[t].append(face_number); face_number+=1
+                    
+                    #second face
+                    f1=coords[v1]; f2=coords[v3]; f3=coords[v4];
+                    LL=compute_lambda(cur,nxt,f1,f2,f3);
                     face_list.append(tuple([v4,v3,v1])); face_mapping.append(tuple([cur,nxt,LL]))
                     face_setdict[t].append(face_number); face_number+=1
             temp1+=ncirclepoints; temp2=temp1+ncirclepoints; temp3=np.roll(temp2,1); temp4=np.roll(temp1,1);
@@ -225,6 +246,16 @@ def get_mesh_structure(G,ncirclepoints=6):
     surface['faces']=face_list; surface['facesets']=face_setdict;
     surface['fmapping']=face_mapping;
     return surface
+
+def compute_lambda(cur,nxt,f1,f2,f3):
+    cr=np.array(cur); nx=np.array(nxt);
+    fc1=np.array(f1); fc2=np.array(f2); fc3=np.array(f3);
+    
+    centroid_point= (fc1+fc2+fc3)/3;
+    dotprod1=np.dot((nx-cr),(centroid_point-cr));
+    dotprod2=np.dot((nx-cr),(nx-cr));
+    
+    return (dotprod1/dotprod2);
 
 def write_mesh_ugx_soma_neurite(G,ncirclepoints,filename):
     GSN=ns.convert_to_soma_neurite(G)
