@@ -411,8 +411,8 @@ def write_1d_ugx(G,filename):
     This function writes the neuron graph to .ugx preserving all subsets by usings the
     get_cell_structure function call
     """
-    #cell = get_cell_structure_by_trunks(G)
-    cell=get_cell_structure(G)
+    cell = get_cell_structure_by_trunks(G)
+    #cell=get_cell_structure(G)
     with open(filename,'w') as f:
         f.write('<?xml version="1.0" encoding="utf-8"?>\n');
         f.write('<grid name="defGrid">\n');
