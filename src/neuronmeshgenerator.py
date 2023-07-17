@@ -134,10 +134,10 @@ def make_meshes(neuron_filename,start_dx,num_ref,n_cir_points,sph_contours,sph_p
         Grefine=ns.read_1d_neuron_swc(swcfilename)
         
         #reorder nodes into dfs ordering
-        old_labels=list(set(Grefine.nodes()))
-        new_labels=list(nx.dfs_preorder_nodes(Grefine,source=1))
-        mapping=dict(zip(old_labels,new_labels))
-        Grefine=nx.relabel_nodes(Grefine,mapping)
+        #old_labels=list(set(Grefine.nodes()))
+        #new_labels=list(nx.dfs_preorder_nodes(Grefine,source=1))
+        #mapping=dict(zip(old_labels,new_labels))
+        #Grefine=nx.relabel_nodes(Grefine,mapping)
         
         os.remove(swcfilename)
         ugx1dfilename=swcfilename.replace('.swc','.ugx')
@@ -220,6 +220,30 @@ def get_mesh_structure(G,ncirclepoints=6):
     
     for trunk in contour:
         keylist=list(contour[trunk].keys())
+        for i in range(0,len(keylist)):
+            for v1,v2,v3,v4 in zip(temp1,temp2,temp3,temp4):
+                if i<len(keylist)-1:
+                    nx=list(G.predecessors(keylist[i])); 
+                    if len(nx) != 0:
+                        nx=nx[0]
+                    else:
+                        nx=keylist[i+1]
+                    nxt=G.nodes[keylist[i]]['pos']; cur=G.nodes[nx]['pos'];
+                    f1=coords[v1]; f2=coords[v2]; f3=coords[v3]; LL=compute_lambda(cur,nxt,f1,f2,f3);
+                    face_mapping.append(tuple([cur,nxt,LL]))
+                if i==len(keylist)-1:
+                    nx=list(G.predecessors(keylist[i])); nx=nx[0]; nxt=G.nodes[nx]['pos'];
+                    cur=G.nodes[keylist[i]]['pos']
+                    LL=compute_lambda(cur,nxt,f1,f2,f3);
+                    face_mapping.append(tuple([cur,nxt,LL]))
+                    
+            temp1+=ncirclepoints; temp2=temp1+ncirclepoints; temp3=np.roll(temp2,1); temp4=np.roll(temp1,1);
+            
+    
+    template=np.array(range(ncirclepoints))
+    temp1=template; temp2=temp1+ncirclepoints; temp3=np.roll(temp2,1); temp4=np.roll(temp1,1);
+    for trunk in contour:
+        keylist=list(contour[trunk].keys())
         for i in range(0,len(keylist)):  #should I skip first contour?
             if i<len(keylist)-1:
                 t=G.nodes[keylist[i+1]]['t']
@@ -241,15 +265,15 @@ def get_mesh_structure(G,ncirclepoints=6):
                     nxt=G.nodes[keylist[i]]['pos']; cur=G.nodes[nx]['pos'];
                     
                     #first face
-                    f1=coords[v1]; f2=coords[v2]; f3=coords[v3];
-                    LL=compute_lambda(cur,nxt,f1,f2,f3);
-                    face_list.append(tuple([v3,v2,v1])); face_mapping.append(tuple([cur,nxt,LL]))
+                    #f1=coords[v1]; f2=coords[v2]; f3=coords[v3];
+                    #LL=compute_lambda(cur,nxt,f1,f2,f3);
+                    face_list.append(tuple([v3,v2,v1])); #face_mapping.append(tuple([cur,nxt,LL]))
                     face_setdict[t].append(face_number); face_number+=1
                     
                     #second face
-                    f1=coords[v1]; f2=coords[v3]; f3=coords[v4];
-                    LL=compute_lambda(cur,nxt,f1,f2,f3);
-                    face_list.append(tuple([v4,v3,v1])); face_mapping.append(tuple([cur,nxt,LL]))
+                    #f1=coords[v1]; f2=coords[v3]; f3=coords[v4];
+                    #LL=compute_lambda(cur,nxt,f1,f2,f3); 
+                    face_list.append(tuple([v4,v3,v1])); #face_mapping.append(tuple([cur,nxt,LL]))
                     face_setdict[t].append(face_number); face_number+=1
             temp1+=ncirclepoints; temp2=temp1+ncirclepoints; temp3=np.roll(temp2,1); temp4=np.roll(temp1,1);
     
@@ -511,7 +535,7 @@ def sphere_mesh_structure(n_contours,n_circle_points,radius,soma_center):
                     face_list.append(tuple([v3,v2,v1]));face_setdict.append(facenumber); facenumber+=1;
                     face_list.append(tuple([v3,v1,v4]));face_setdict.append(facenumber); facenumber+=1;
                     face_mapping.append(tuple([somapos,somapos,LL]))
-                    face_mapping.append(tuple([somapos,somapos,LL]))
+                    #face_mapping.append(tuple([somapos,somapos,LL]))
                     
             temp1+=n_circle_points; temp2=temp1+n_circle_points; temp3=np.roll(temp2,1); temp4=np.roll(temp1,1);
         
