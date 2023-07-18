@@ -6,7 +6,7 @@ print("Python version: ",sys.version)
 print("Version info:   ",sys.version_info)
 print('Argparse:       ',argparse.__version__,'\n')
 
-sys.path.insert(0, os.getcwd()+'/src/')
+sys.path.insert(0, os.getcwd()+'/src/old/')
 
 import renderneuron as rn
 import parallelframe as pf

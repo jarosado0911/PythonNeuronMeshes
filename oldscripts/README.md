@@ -126,6 +126,68 @@ python3 NEW_generate_meshes.py -n 10 -c 10 -d 64.0 -p 16 -q 16 -i cells/Purkinje
 This will produce an output folder called `<cell_name>.mesh` and it will contain `.swc` files and `.ugx` files which are numbered accordingly.
 It will also produce a `.vrn` file to be used in [`NeuroVisor`](https://github.com/c2m2/Neuro-VISOR)
 
+#### OLD USAGE
+There is a file called `generate_meshes.py` if you execute in the commandline `python3 generate_mesh.py` you will receive the following output
+```
+usage: generate_meshes.py [-h] -n NUMREFINE -c NUMCONTPTS -s SCALESOMA -p SPHERECONTOURS -q SPHEREPOINTS -i INPUT -o OUTPUT
+                          [--spline]
+generate_meshes.py: error: the following arguments are required: -n/--numrefine, -c/--numcontpts, -s/--scalesoma, -p/--spherecontours, -q/--spherepoints, -i/--input, -o/--output
+```
+If you execute `python3 generate_meshes.py -h` you will get some more help information:
+```
+usage: generate_meshes.py [-h] -n NUMREFINE -c NUMCONTPTS -s SCALESOMA -p SPHERECONTOURS -q SPHEREPOINTS -i INPUT -o OUTPUT
+                          [--spline]
+
+This program will generate .swc refinements, .ugx 1d refinements, and .ugx surface meshes and zip all files into a .vrn file,
+usage: python3 generate_mesh.py -n 4 -c 6 -s 1.10 -p 10 -q 16 -i cells/<cellname> -o <outfoldername> --spline
+
+optional arguments:
+  -h, --help            show this help message and exit
+  -n NUMREFINE, --numrefine NUMREFINE
+                        Number of Refinements
+  -c NUMCONTPTS, --numcontpts NUMCONTPTS
+                        Number of Contour points
+  -s SCALESOMA, --scalesoma SCALESOMA
+                        Scale the soma
+  -p SPHERECONTOURS, --spherecontours SPHERECONTOURS
+                        Number of sphere contours
+  -q SPHEREPOINTS, --spherepoints SPHEREPOINTS
+                        Number of points per sphere contour
+  -i INPUT, --input INPUT
+                        The input .swc file
+  -o OUTPUT, --output OUTPUT
+                        The output folder name
+  --spline              Use splines
+```
+The folder `cells` contains cells which were downloaded from [`NeuroMorpho.org`](https://neuromorpho.org/)
+Example usage using splines is shown below
+```
+python3 generate_meshes.py -n 10 -c 12 -s 1.10 -p 4 -q 4-i cells/0-2a.CNG.swc -o 0-2a.CNG.mesh --spline
+```
+This will produce an output folder called `output_mesh` and it will contain `.swc` files and `.ugx` files which are numbered accordingly.
+It will also produce a `.vrn` file to be used in [`NeuroVisor`](https://github.com/c2m2/Neuro-VISOR)
+The output below will be printed below:
+```
+Number of refinements:                10
+Number of contour points:             12
+Soma Scale:                           1.10
+Number of Sphere contours:            4
+Number of Sphere points per contour:  4
+Input file:                           cells/0-2a.CNG.swc
+Output file:                          0-2a.CNG.mesh
+Use splines:                          True
+1.1
+DX =  [128, 64, 32, 16, 8, 4, 2, 1, 0.5, 0.25]
+```
+If you leave off `--spline` then splines will not be used:
+```
+python3 generate_meshes.py -n 10 -c 12 -s 1.10 -p 4 -q 4-i cells/0-2a.CNG.swc -o 0-2a.CNG.mesh
+```
+The difference between generating meshes using splines and without splines is shown in the figure below. The yellow mesh is pure refinement of the original `.swc` by repeated splitting of the edges of the original geometry. The red mesh uses a spline with equally spaced sampled points. The spline is an interpolation of the original points along the trunk (a trunk is a piece of neuron between two adjacent branch points).
+<p align="center">
+  <img src="./img/meshcomparison.png" alt="Size Limit CLI" width="500">
+</p>
+
 The parameter `c` affects the type of regular polygon used for the contours, in the figure below the far left mesh uses 32-ngons for contours and the far right uses equilateral triangles (3-gons) for contours.
 <p align="center">
   <img src="./img/increasing_polygons.png" alt="Size Limit CLI" width="500">
@@ -154,18 +216,18 @@ Here is a lists of tasks that need to be completed and questions that need to be
 + ~~TURN 1D .SWC TO .UGX (MAKE SURE INDEXING MATCHED .UGX SURFACE MAPPING) --> TODO!:collision:~~ Have to check :warning: :construction:
 + ~~IMPORTANT: RESOLVE SOMA!! -->~~ I am using a soma sphere see [`paper`](https://github.com/jarosado0911/PythonNeuronMeshes/blob/main/papers/MeshQualityOriented3DGeometricVascularModelingBasedOnParallelTransport.pdf) :white_check_mark:
 + IMPORTANT: RESOLVE BRANCH POINTS!! :x:(see fig below)
-+ ~~CLOSE THE END OF THE DENDRITES!!  :x: (see fig below)~~:white_check_mark:
++ CLOSE THE END OF THE DENDRITES!!  :x: (see fig below)
 + ~~Fix subset assignment in `.ugx` right now when you open the `.ugx` nothing appears because you have to manually select all and assign the subset DONE!~~:white_check_mark:
 + ~~Add jupyter-notebooks for more exploration of code.DONE!~~:white_check_mark:
 <p align="center">
   <img src="./img/PROBLEMS.png" alt="Size Limit CLI" width="600">
 </p>
-I have placed soma sphere now :white_check_mark:, but the branch points need to be fixed and ~~end of dendrites closed.~~
+I have placed soma sphere now :white_check_mark:, but the branch points need to be fixed and end of dendrites closed.
 <p align="center">
 <img src="./img/somasphere.png" alt="Size Limit CLI" width="600">
 </p>
 + Question: I am using Pythons `scipy` module to realize the spline interpolation --> this needs to be studied further, what is the math used? a write up of how it is doing this would be nice :grey_question:
-+ ~~Remove soma line segment that is present in original `.swc` file from [`NeuroMorpho.org`](https://neuromorpho.org/):grey_question:
++ Remove soma line segment that is present in original `.swc` file from [`NeuroMorpho.org`](https://neuromorpho.org/):grey_question:
 
 + ~~Currently the `.ugx` geometries only distinguish between two subsets, the neurites and the soma, below is a figure from [`Promesh4`](https://promesh3d.com/). I would like to improve the writing to `.ugx` to be more elegant and handle a variety of subsets (for the 1d and surface meshes). DONE!~~:white_check_mark:
 <p align="center">
