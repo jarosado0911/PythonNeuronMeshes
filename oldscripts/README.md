@@ -23,11 +23,11 @@ The code allows the user to use spline interpolation for regularizing/refining t
 
 The project uses [`Parallel Transport Frames`](https://legacy.cs.indiana.edu/ftp/techreports/TR425.pdf) to generate the contours used in the mesh generation. Below is a figure showing some meshes with increasing refinements. Wikipedia on [`parallel tranpsport`](https://en.wikipedia.org/wiki/Parallel_transport). 
 <p align="center">
-  <img src="./img/image.png" alt="Size Limit CLI" width="500">
+  <img src="./../img/image.png" alt="Size Limit CLI" width="500">
 </p>
 Below is a figure showing the 1d geometry centered within the 3d surface mesh geometry (triangular faces hidden).
 <p align="center">
-  <img src="./img/1d3d.png" alt="Size Limit CLI" width="500">
+  <img src="./../img/1d3d.png" alt="Size Limit CLI" width="500">
 </p>
 
 ### Installation
@@ -185,12 +185,12 @@ python3 generate_meshes.py -n 10 -c 12 -s 1.10 -p 4 -q 4-i cells/0-2a.CNG.swc -o
 ```
 The difference between generating meshes using splines and without splines is shown in the figure below. The yellow mesh is pure refinement of the original `.swc` by repeated splitting of the edges of the original geometry. The red mesh uses a spline with equally spaced sampled points. The spline is an interpolation of the original points along the trunk (a trunk is a piece of neuron between two adjacent branch points).
 <p align="center">
-  <img src="./img/meshcomparison.png" alt="Size Limit CLI" width="500">
+  <img src="./../img/meshcomparison.png" alt="Size Limit CLI" width="500">
 </p>
 
 The parameter `c` affects the type of regular polygon used for the contours, in the figure below the far left mesh uses 32-ngons for contours and the far right uses equilateral triangles (3-gons) for contours.
 <p align="center">
-  <img src="./img/increasing_polygons.png" alt="Size Limit CLI" width="500">
+  <img src="./../img/increasing_polygons.png" alt="Size Limit CLI" width="500">
 </p>
 
 ### Other
@@ -202,7 +202,7 @@ The parameter `c` affects the type of regular polygon used for the contours, in 
 - Here is alink on spline interpolation for C#: [`C# Spline`](https://swharden.com/blog/2022-01-22-spline-interpolation/)
 - Here is a video I made using Yale Neuron, there is a notebook in the `notebooks` folder where I do this:
 <p align="center">
-  <img src="./img/yaleneuron.gif" alt="Size Limit CLI" width="400">
+  <img src="./../img/yaleneuron.gif" alt="Size Limit CLI" width="400">
 </p>
 
 ### Tasks!
@@ -231,11 +231,11 @@ I have placed soma sphere now :white_check_mark:, but the branch points need to 
 
 + ~~Currently the `.ugx` geometries only distinguish between two subsets, the neurites and the soma, below is a figure from [`Promesh4`](https://promesh3d.com/). I would like to improve the writing to `.ugx` to be more elegant and handle a variety of subsets (for the 1d and surface meshes). DONE!~~:white_check_mark:
 <p align="center">
-  <img src="./img/soma-neurite.png" alt="Size Limit CLI" width="500">
+  <img src="./../img/soma-neurite.png" alt="Size Limit CLI" width="500">
 </p>
 
 + Now can handle subsets
 
 <p align="center">
-  <img src="./img/mesh_subsets.png" alt="Size Limit CLI" width="500">
+  <img src="./../img/mesh_subsets.png" alt="Size Limit CLI" width="500">
 </p>
