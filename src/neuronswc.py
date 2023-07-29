@@ -15,6 +15,71 @@ import random
 print('JSON:           ',json.__version__)
 print('networkx:       ', nx.__version__)
 print('scipy:          ', scipy.__version__)
+
+def get_radii_maxmin(G):
+    rset=set()
+    for n in G.nodes():
+        rset.add(G.nodes[n]['r'])
+    
+    rset=list(rset)
+    M=max(rset); m=min(rset);
+    return M,m
+
+def get_end_nodes(G):
+    end_nodes=[];
+    for n in G.nodes():
+        if G.degree(n)==1:
+            end_nodes.append(n)
+    return end_nodes
+
+def get_path(G,source,target):
+    return nx.shortest_path(G,source,target)
+    
+def get_path_distance(G,source,target):
+    path=nx.shortest_path(G,source,target)
+    coords=[]
+    for n in path:
+        coords.append(G.nodes[n]['pos'])
+        
+    dd=0.0
+    for i in range(len(coords)-1):
+        xyz1=np.array(coords[i]); xyz2=np.array(coords[i+1]);
+        dxyz=(xyz1-xyz2)**2; dxyz=np.sum(dxyz); dxyz=np.sqrt(dxyz)
+        dd+=dxyz
+    
+    return dd
+
+def rexp(R,r,x):
+    gamma=80.0;
+    a=(R-r)/(1-math.exp(-1.0*gamma));
+    b=R-a;
+    return a*np.exp(-1.0*gamma*x)+b
+
+def get_maxmin_path_distance(G):
+    end_nodes=get_end_nodes(G)
+    M=0.0;
+    m=math.inf
+    for n in end_nodes:
+        d=get_path_distance(G,1,n)
+        if d>M:
+            M=d
+        if d<m:
+            m=d
+    return M,m
+
+def artificial_radii(G,R=None,r=None):
+    M,m=get_maxmin_path_distance(G)
+    if R==None:
+        R,_=get_radii_maxmin(G)
+    if r==None:
+        _,r=get_radii_maxmin(G)
+        
+    for n in G.nodes():
+        d=get_path_distance(G,1,n)
+        d=d/M
+        G.nodes[n]['r']=rexp(R,r,d);
+    return G
+
 def split_edges(G):
     """
     This function takes in a graph object (G) and refines the geometry once by splitting all edges
@@ -81,7 +146,79 @@ def spline_refine(G,dx,savetofile):
         Gspline=read_1d_neuron_swc(swcfilename) # for some reason writing neuron directly to .ugx after spline is messed up
         ugxfilename=swcfilename.replace('swc','ugx')
         write_1d_ugx(Gspline,ugxfilename)
+        
+def interpolate_points2(lst,x,y,z,r,tp,delta_x):
+    new_r= [x/1.0 for x in r]; ave_t=max(tp)
 
+    # get length of trunk 
+    xc=np.array(x); yc=np.array(y); zc=np.array(z);
+    
+    npts = len(xc)
+    s = np.zeros(npts, dtype=float)
+    for j in range(1, npts):
+        dx = xc[j] - xc[j-1]; dy = yc[j] - yc[j-1]; dz = zc[j] - zc[j-1]
+        vec = np.array([dx, dy, dz])
+        s[j] = s[j-1] + np.linalg.norm(vec)
+    
+    d=np.diff(xc)**2+np.diff(yc)**2+np.diff(zc)**2
+    d=list(d**(0.5)); d.insert(0,0);
+    # get length, and number of points
+    trunk_length=sum(d); num_true_pts=math.ceil(trunk_length/delta_x)
+    
+    if num_true_pts <=3: num_true_pts=4
+    
+    u_fine = np.linspace(s[0],s[-1],num_true_pts)
+    
+    if len(d)<4: kind='linear'
+    else: kind='cubic'
+    
+    # Create new interpolation function for each axis against the norm 
+    f1 = interpolate.interp1d(s, xc, kind=kind)
+    f2 = interpolate.interp1d(s, yc, kind=kind)
+    f3 = interpolate.interp1d(s, zc, kind=kind)
+    f4 = interpolate.interp1d(s,new_r,kind='linear')
+    # create new fine data curve based on xvec
+    x_fine = f1(u_fine); y_fine = f2(u_fine); z_fine = f3(u_fine);
+    r_fine = f4(u_fine);
+        
+    return x_fine,y_fine, z_fine, r_fine, ave_t
+
+def interpolate_points(lst,x,y,z,r,tp,delta_x):
+    new_r= [x/1.0 for x in r]; ave_t=max(tp)
+
+    if len(lst)<=5:
+        spl_deg=len(lst)-1
+    else:
+        spl_deg=3   # using a cubic spline for most of cell
+
+    # get length of trunk 
+    xc=np.array(x); yc=np.array(y); zc=np.array(z);
+    d=np.diff(xc)**2+np.diff(yc)**2+np.diff(zc)**2
+    d=list(d**(0.5)); d.insert(0,0);
+
+    # get length, and number of points
+    trunk_length=sum(d); num_true_pts=math.ceil(trunk_length/delta_x)
+    if num_true_pts <=3:
+        num_true_pts=4
+
+    u_fine = np.linspace(0,1.0,num_true_pts)
+
+    # do interpolation of points
+    tck, u = interpolate.splprep([x,y,z],k=spl_deg,s=0)
+    x_fine, y_fine, z_fine = interpolate.splev(u_fine, tck)
+
+    # do interpolation of radii   
+    if min(new_r)==max(new_r):
+        r_fine=[new_r[0] for xx in x_fine]
+    else:
+        try:
+            tck,u = interpolate.splprep([d,new_r],k=1,s=0)
+        except:
+            tck,u = interpolate.splprep([[max(d),min(d)],[max(new_r),min(new_r)]],k=1,s=0)
+        d_fine,r_fine=interpolate.splev(u_fine,tck)
+        
+    return x_fine,y_fine, z_fine, r_fine, ave_t
+    
 def spline_neuron(Gin,delta_x):
     """
     this function performs a spline refinement of the neuron graph geometry
@@ -99,39 +236,8 @@ def spline_neuron(Gin,delta_x):
             pos=G.nodes[n]['pos']; rad=G.nodes[n]['r']; t=G.nodes[n]['t'];
             x.append(pos[0]); y.append(pos[1]); z.append(pos[2]);
             r.append(rad); tp.append(t);
-
-        new_r= [x/1.0 for x in r]; ave_t=max(tp)
-
-        if len(lst)<=5:
-            spl_deg=len(lst)-1
-        else:
-            spl_deg=3   # using a cubic spline for most of cell
-            
-        # get length of trunk 
-        xc=np.array(x); yc=np.array(y); zc=np.array(z);
-        d=np.diff(xc)**2+np.diff(yc)**2+np.diff(zc)**2
-        d=list(d**(0.5)); d.insert(0,0);
-        
-        # get length, and number of points
-        trunk_length=sum(d); num_true_pts=math.ceil(trunk_length/delta_x)
-        if num_true_pts <=3:
-            num_true_pts=4
-
-        u_fine = np.linspace(0,1.0,num_true_pts)
-
-        # do interpolation of points
-        tck, u = interpolate.splprep([x,y,z],k=spl_deg,s=0)
-        x_fine, y_fine, z_fine = interpolate.splev(u_fine, tck)
-
-        # do interpolation of radii   
-        if min(new_r)==max(new_r):
-            r_fine=[new_r[0] for xx in x_fine]
-        else:
-            try:
-                tck,u = interpolate.splprep([d,new_r],k=1,s=0)
-            except:
-                tck,u = interpolate.splprep([[max(d),min(d)],[max(new_r),min(new_r)]],k=1,s=0)
-            d_fine,r_fine=interpolate.splev(u_fine,tck)
+    
+        x_fine,y_fine, z_fine, r_fine, ave_t=interpolate_points(lst,x,y,z,r,tp,delta_x)
     
         # add none connected nodes to end of graph
         start_node=lst[0]
@@ -326,6 +432,71 @@ def get_cell_structure(G):
     cell['edgesets']=edge_setdict; cell['edges']=edge_list; cell['attachments']=attachment_dict
     return cell
 
+def get_cell_structure_by_trunks(G):
+    #get the trunks of the geometry
+    trunks,T=get_trunks(G)
+    
+    # Let us get ugx structure, first get the subset types
+    subsets=set()
+    for n in list(G.nodes()):
+        subsets.add(G.nodes[n]['t'])
+    
+    # now collect nodes in particular subset
+    node_setdict={}; edge_setdict={};
+    attachment_dict={}
+    for i in subsets:
+        node_setdict[i]=[]; edge_setdict[i]=[]
+    
+    trunks_keys=list(trunks.keys())
+    vertex_number=1;
+    ugx_to_graph={};
+    graph_to_ugx={};
+    ugx1dcoords ={};
+    
+    for i in range(len(trunks_keys)): # should I skip the last??
+        trunk_nodes=trunks[trunks_keys[i]];
+        for j in range(len(trunk_nodes)):
+            n=trunk_nodes[j]
+            t=G.nodes[n]['t']
+            if n in graph_to_ugx.keys():
+                continue
+            node_setdict[t].append(vertex_number) 
+            ugx_to_graph[vertex_number]=n; graph_to_ugx[n]=vertex_number; vertex_number+=1;
+            ugx1dcoords[vertex_number]=G.nodes[n]['pos']
+            rad=G.nodes[n]['r']; pos=G.nodes[n]['pos']
+            Dict={'r': rad,'pos': pos}
+            attachment_dict[graph_to_ugx[n]]=Dict
+            
+    for i in subsets:
+        node_setdict[i].sort()
+        
+    # now make a list of edges, edge set dictionary
+    edge_list=[]
+    for i in range(len(trunks_keys)): 
+        trunk_nodes=trunks[trunks_keys[i]];
+        for j in range(1,len(trunk_nodes)): #skip the first node
+            n=trunk_nodes[j]
+            pred_list=list(G.predecessors(n))
+            if len(pred_list)!=0:
+                from_to=tuple([graph_to_ugx[pred_list[0]], graph_to_ugx[n]]) 
+                edge_list.append(from_to)
+    edge_list.sort()
+    
+    edge_number=0 #ugx edge numbers start at 0 
+    for e in edge_list:
+        from_to=e
+        t=G.nodes[ugx_to_graph[from_to[1]]]['t']  
+        Dict={'e':edge_number,'fromto':from_to}; edge_number+=1
+        edge_setdict[t].append(Dict)
+        
+    # now assemble dictionary containing the subset structures
+    cell={}; cell['subsets']=subsets; cell['nodesets']=node_setdict
+    cell['edgesets']=edge_setdict; cell['edges']=edge_list; cell['attachments']=attachment_dict
+    cell['graphugx']=graph_to_ugx;
+    cell['ugxgraph']=ugx_to_graph;
+    cell['ugx1dcoords']=ugx1dcoords;
+    return cell
+
 def convert_to_soma_neurite(G):
     GSN=copy.deepcopy(G);
     for n in GSN.nodes():
@@ -340,13 +511,14 @@ def write_1d_ugx_soma_neurite(G,filename):
     GSN=convert_to_soma_neurite(G)
     write_1d_ugx(GSN,filename)
     print('Saved to ',filename)
-
+    
 def write_1d_ugx(G,filename):
     """
     This function writes the neuron graph to .ugx preserving all subsets by usings the
     get_cell_structure function call
     """
-    cell = get_cell_structure(G)
+    cell = get_cell_structure_by_trunks(G)
+    #cell=get_cell_structure(G)
     with open(filename,'w') as f:
         f.write('<?xml version="1.0" encoding="utf-8"?>\n');
         f.write('<grid name="defGrid">\n');

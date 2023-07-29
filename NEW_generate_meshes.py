@@ -1,5 +1,6 @@
 import argparse
 import os
+import shutil
 import sys
 import copy
 print("Python version: ",sys.version)
@@ -39,3 +40,5 @@ start_dx=float(args.startdx);
 MESHFOLDER=nmg.make_meshes(CELL_FILE,start_dx,n,npts,nsphere_contours,nsphere_contour_pts)
 nmg.write_vrn(MESHFOLDER)
 print('Done making VRN!...',MESHFOLDER,' is the folder')
+print('Removing MESHFOLDER...')
+shutil.rmtree(MESHFOLDER)

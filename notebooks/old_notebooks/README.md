@@ -1,4 +1,4 @@
-# Notebooks
+# Notebooks [OLD]
 
 Contents
 ========
@@ -19,7 +19,7 @@ There is also an example video I made called `movie.mp4` showing electrical sign
 
 ## Files
 
-- The `Refactored_Mesh_Generation` goes through the process of reading an `.swc` file, making direct refinements, making spline refinements, and generating `.ugx` surface geometries
+- The `Exploring_Functionality` goes through the process of reading an `.swc` file, making direct refinements, making spline refinements, and generating `.ugx` surface geometries
 
 - The `Running_Yale_Neuron_Simulation` goes through loading a `.swc` file, assigning Hodgkin Huxley mechanisms to the membrane, collecting cell information into a dictionary, setting up a current clamp simulation, running the simulation, and then making a video using a sequence of images. The notebook will make a directory called `images` where the images for the video are stored, the `images` directory is not part of this repo. Below is an example video
 <p align="center">
