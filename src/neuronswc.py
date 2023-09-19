@@ -234,6 +234,10 @@ def spline_neuron(Gin,delta_x):
         lst=trunks[j]
         for n in lst:
             pos=G.nodes[n]['pos']; rad=G.nodes[n]['r']; t=G.nodes[n]['t'];
+            
+            if t==1:
+                rad=G.nodes[lst[1]]['r'];
+                
             x.append(pos[0]); y.append(pos[1]); z.append(pos[2]);
             r.append(rad); tp.append(t);
     

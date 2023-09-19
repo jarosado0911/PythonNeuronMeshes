@@ -97,7 +97,11 @@ def get_pft_frames(G,npts):
             rr=G.nodes[tk[i]]['r']
             if G.degree(tk[i])==1:
                 rr=0.00001
-                
+            
+            # avoid using soma radius for mesh
+            if G.nodes[tk[i]]['t']==1:
+                rr=G.nodes[tk[i+1]]['r']
+            
             posxyz=[]
             for rad in t:
                 xx=points[i][0]+rr*(U[i][0]*np.cos(rad) + V[i][0]*np.sin(rad))
